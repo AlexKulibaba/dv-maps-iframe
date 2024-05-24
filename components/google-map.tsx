@@ -75,6 +75,7 @@ const GoogleMapComponent = ({ markers }: GoogleMapProps) => {
                     pixelOffset: {
                       width: 0,
                       height: -40,
+                      equals: () => false,
                     },
                   }}
                 >
