@@ -7,20 +7,10 @@ import {
   MarkerClusterer,
 } from "@react-google-maps/api";
 
-const GoogleMapComponent = () => {
-  const markers = [
-    { lat: 50.7753, lng: 6.0839 },
-    { lat: 50.7744, lng: 6.0855 },
-    { lat: 50.7797, lng: 6.0765 },
-    { lat: 50.7923, lng: 6.1195 },
-    { lat: 50.7734, lng: 6.0722 },
-    { lat: 50.7757, lng: 6.0215 },
-    { lat: 50.7706, lng: 6.0912 },
-    { lat: 50.7771, lng: 6.1674 },
-    { lat: 50.776, lng: 6.0827 },
-    { lat: 50.7718, lng: 6.0814 },
-  ];
-
+interface GoogleMapProps {
+  markers: { lat: number; lng: number }[];
+}
+const GoogleMapComponent = ({ markers }: GoogleMapProps) => {
   const containerStyle = {
     width: "100vw",
     height: "100vh",
