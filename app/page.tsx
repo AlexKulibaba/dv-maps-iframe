@@ -10,20 +10,21 @@ import { use, useEffect, useState } from "react";
 export default function Home() {
   const [markers, setMarkers] = useState<
     {
+      name: string;
       lat: number;
       lng: number;
     }[]
   >([
-    { lat: 50.7753, lng: 6.0839 },
-    { lat: 50.7744, lng: 6.0855 },
-    { lat: 50.7797, lng: 6.0765 },
-    { lat: 50.7923, lng: 6.1195 },
-    { lat: 50.7734, lng: 6.0722 },
-    { lat: 50.7757, lng: 6.0215 },
-    { lat: 50.7706, lng: 6.0912 },
-    { lat: 50.7771, lng: 6.1674 },
-    { lat: 50.776, lng: 6.0827 },
-    { lat: 50.7718, lng: 6.0814 },
+    { name: "test", lat: 50.7753, lng: 6.0839 },
+    { name: "test", lat: 50.7744, lng: 6.0855 },
+    { name: "test", lat: 50.7797, lng: 6.0765 },
+    { name: "test", lat: 50.7923, lng: 6.1195 },
+    { name: "test", lat: 50.7734, lng: 6.0722 },
+    { name: "test", lat: 50.7757, lng: 6.0215 },
+    { name: "test", lat: 50.7706, lng: 6.0912 },
+    { name: "test", lat: 50.7771, lng: 6.1674 },
+    { name: "test", lat: 50.776, lng: 6.0827 },
+    { name: "test", lat: 50.7718, lng: 6.0814 },
   ]);
 
   function getCoordinatesArray(
@@ -64,7 +65,12 @@ export default function Home() {
   useEffect(() => {
     getMarkers().then((data) => {
       console.log(data);
-      setMarkers(getCoordinatesArray(data));
+      const coordinates = getCoordinatesArray(data).map((coordinate) => {
+        return { name: "test", lat: coordinate.lat, lng: coordinate.lng };
+      });
+      console.log(coordinates);
+
+      setMarkers(coordinates);
     });
   }, []);
 

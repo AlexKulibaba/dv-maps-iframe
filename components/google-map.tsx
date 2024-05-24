@@ -5,12 +5,18 @@ import {
   useJsApiLoader,
   MarkerF,
   MarkerClusterer,
+  InfoWindowF,
 } from "@react-google-maps/api";
 
 interface GoogleMapProps {
-  markers: { lat: number; lng: number }[];
+  markers: { lat: number; lng: number; name: string }[];
 }
 const GoogleMapComponent = ({ markers }: GoogleMapProps) => {
+  const [selectedPlace, setSelectedPlace] = React.useState<{
+    lat: number;
+    lng: number;
+    name: string;
+  } | null>(null);
   const containerStyle = {
     width: "100vw",
     height: "100vh",
@@ -49,8 +55,34 @@ const GoogleMapComponent = ({ markers }: GoogleMapProps) => {
           {(clusterer) => (
             <>
               {markers.map((marker, index) => (
-                <MarkerF key={index} position={marker} clusterer={clusterer} />
+                <MarkerF
+                  key={index}
+                  position={marker}
+                  clusterer={clusterer}
+                  onClick={() => {
+                    marker === selectedPlace
+                      ? setSelectedPlace(null)
+                      : setSelectedPlace(marker);
+                  }}
+                />
               ))}
+              {selectedPlace && (
+                <InfoWindowF
+                  position={selectedPlace}
+                  onCloseClick={() => setSelectedPlace(null)}
+                  zIndex={100}
+                  options={{
+                    pixelOffset: {
+                      width: 0,
+                      height: -40,
+                    },
+                  }}
+                >
+                  <div>
+                    <h1>{selectedPlace.name}</h1>
+                  </div>
+                </InfoWindowF>
+              )}
             </>
           )}
         </MarkerClusterer>
