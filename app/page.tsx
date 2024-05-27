@@ -7,7 +7,7 @@ import axios from "axios";
 
 import Image from "next/image";
 import { useSearchParams } from "next/navigation";
-import { use, useEffect, useState } from "react";
+import { Suspense, use, useEffect, useState } from "react";
 
 export interface Marker {
   name: string;
@@ -24,9 +24,8 @@ const possibleFilters = ["Neu", "In Arbeit", "Inspektion", "Abgeschlossen"];
 export default function Home() {
   const searchParams = useSearchParams();
   const filter = searchParams.get("filter");
-  const selectedFilter = possibleFilters.filter((item) =>
-    filter?.includes(item)
-  );
+  let selectedFilter = possibleFilters.filter((item) => filter?.includes(item));
+  if (selectedFilter.length === 0) selectedFilter = possibleFilters;
   console.log(selectedFilter);
   const [markers, setMarkers] = useState<Marker[]>([]);
 
@@ -92,7 +91,9 @@ export default function Home() {
 
   return (
     <main className="flex min-h-screen flex-col items-center justify-center">
-      <GoogleMap markers={markers} filter={selectedFilter} />
+      <Suspense>
+        <GoogleMap markers={markers} filter={selectedFilter} />
+      </Suspense>
     </main>
   );
 }
