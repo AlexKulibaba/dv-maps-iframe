@@ -7,24 +7,107 @@ import axios from "axios";
 import Image from "next/image";
 import { use, useEffect, useState } from "react";
 
+export interface Marker {
+  name: string;
+  type: string;
+  description: string;
+  position: {
+    lat: number;
+    lng: number;
+  };
+}
 export default function Home() {
-  const [markers, setMarkers] = useState<
+  const [markers, setMarkers] = useState<Marker[]>([
     {
-      name: string;
-      lat: number;
-      lng: number;
-    }[]
-  >([
-    { name: "test", lat: 50.7753, lng: 6.0839 },
-    { name: "test", lat: 50.7744, lng: 6.0855 },
-    { name: "test", lat: 50.7797, lng: 6.0765 },
-    { name: "test", lat: 50.7923, lng: 6.1195 },
-    { name: "test", lat: 50.7734, lng: 6.0722 },
-    { name: "test", lat: 50.7757, lng: 6.0215 },
-    { name: "test", lat: 50.7706, lng: 6.0912 },
-    { name: "test", lat: 50.7771, lng: 6.1674 },
-    { name: "test", lat: 50.776, lng: 6.0827 },
-    { name: "test", lat: 50.7718, lng: 6.0814 },
+      name: "test",
+      type: "test",
+      description: "test",
+      position: {
+        lat: 50.7753,
+        lng: 6.0839,
+      },
+    },
+    {
+      name: "test",
+      type: "test",
+      description: "test",
+      position: {
+        lat: 50.7744,
+        lng: 6.0855,
+      },
+    },
+    {
+      name: "test",
+      type: "test",
+      description: "test",
+      position: {
+        lat: 50.7797,
+        lng: 6.0765,
+      },
+    },
+    {
+      name: "test",
+      type: "test",
+      description: "test",
+      position: {
+        lat: 50.7923,
+        lng: 6.1195,
+      },
+    },
+    {
+      name: "test",
+      type: "test",
+      description: "test",
+      position: {
+        lat: 50.7734,
+        lng: 6.0722,
+      },
+    },
+    {
+      name: "test",
+      type: "test",
+      description: "test",
+      position: {
+        lat: 50.7757,
+        lng: 6.0215,
+      },
+    },
+    {
+      name: "test",
+      type: "test",
+      description: "test",
+      position: {
+        lat: 50.7706,
+        lng: 6.0912,
+      },
+    },
+    {
+      name: "test",
+      type: "test",
+      description: "test",
+      position: {
+        lat: 50.7771,
+        lng: 6.1674,
+      },
+    },
+    {
+      name: "test",
+      type: "test",
+      description: "test",
+      position: {
+        lat: 50.776,
+        lng: 6.0827,
+      },
+    },
+    {
+      name: "test",
+      type: "test",
+      description: "test",
+      position: {
+        lat: 50.7718,
+        lng: 6.0814,
+      },
+    },
   ]);
 
   function getCoordinatesArray(
@@ -66,7 +149,15 @@ export default function Home() {
     getMarkers().then((data) => {
       console.log(data);
       const coordinates = getCoordinatesArray(data).map((coordinate) => {
-        return { name: "test", lat: coordinate.lat, lng: coordinate.lng };
+        return {
+          name: "test",
+          type: "test",
+          description: "test",
+          position: {
+            lat: coordinate.lat,
+            lng: coordinate.lng,
+          },
+        };
       });
       console.log(coordinates);
 

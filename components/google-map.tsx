@@ -7,16 +7,14 @@ import {
   MarkerClusterer,
   InfoWindowF,
 } from "@react-google-maps/api";
+import { Home } from "lucide-react";
+import { Marker } from "@/app/page";
 
 interface GoogleMapProps {
-  markers: { lat: number; lng: number; name: string }[];
+  markers: Marker[];
 }
 const GoogleMapComponent = ({ markers }: GoogleMapProps) => {
-  const [selectedPlace, setSelectedPlace] = React.useState<{
-    lat: number;
-    lng: number;
-    name: string;
-  } | null>(null);
+  const [selectedPlace, setSelectedPlace] = React.useState<Marker | null>(null);
   const containerStyle = {
     width: "100vw",
     height: "100vh",
@@ -57,7 +55,7 @@ const GoogleMapComponent = ({ markers }: GoogleMapProps) => {
               {markers.map((marker, index) => (
                 <MarkerF
                   key={index}
-                  position={marker}
+                  position={marker.position}
                   clusterer={clusterer}
                   onClick={() => {
                     marker === selectedPlace
@@ -68,7 +66,7 @@ const GoogleMapComponent = ({ markers }: GoogleMapProps) => {
               ))}
               {selectedPlace && (
                 <InfoWindowF
-                  position={selectedPlace}
+                  position={selectedPlace.position}
                   onCloseClick={() => setSelectedPlace(null)}
                   zIndex={100}
                   options={{
@@ -79,8 +77,19 @@ const GoogleMapComponent = ({ markers }: GoogleMapProps) => {
                     },
                   }}
                 >
-                  <div>
-                    <h1>{selectedPlace.name}</h1>
+                  <div className="space-y-2">
+                    <h1 className="font-bold text-xl">{selectedPlace.name}</h1>
+                    <p className="max-w-40 overflow-hidden">Beschreibung</p>
+                    <p>
+                      <a
+                        href={`https://www.google.com/maps/dir/?api=1&destination=${selectedPlace.position.lat},${selectedPlace.position.lng}`}
+                        target="_blank"
+                        rel="noreferrer"
+                        className="text-blue-500"
+                      >
+                        Route
+                      </a>
+                    </p>
                   </div>
                 </InfoWindowF>
               )}
