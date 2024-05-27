@@ -90,10 +90,10 @@ export default function Home() {
   }, []);
 
   return (
-    <main className="flex min-h-screen flex-col items-center justify-center">
-      <Suspense>
+    <Suspense>
+      <main className="flex min-h-screen flex-col items-center justify-center">
         <GoogleMap markers={markers} filter={selectedFilter} />
-      </Suspense>
-    </main>
+      </main>
+    </Suspense>
   );
 }
