@@ -6,7 +6,7 @@ import { extractCoordinates } from "@/lib/utils";
 import axios from "axios";
 
 import Image from "next/image";
-import { useRouter } from "next/router";
+import { useSearchParams } from "next/navigation";
 import { use, useEffect, useState } from "react";
 
 export interface Marker {
@@ -19,11 +19,15 @@ export interface Marker {
     address: string;
   };
 }
-export default function Home() {
-  // const router = useRouter();
-  // const { query } = router;
-  // const filter = query.filter as string;
 
+const possibleFilters = ["Neu", "In Arbeit", "Inspektion", "Abgeschlossen"];
+export default function Home() {
+  const searchParams = useSearchParams();
+  const filter = searchParams.get("filter");
+  const selectedFilter = possibleFilters.filter((item) =>
+    filter?.includes(item)
+  );
+  console.log(selectedFilter);
   const [markers, setMarkers] = useState<Marker[]>([]);
 
   function getCoordinatesArray(
@@ -88,7 +92,7 @@ export default function Home() {
 
   return (
     <main className="flex min-h-screen flex-col items-center justify-center">
-      <GoogleMap markers={markers} />
+      <GoogleMap markers={markers} filter={selectedFilter} />
     </main>
   );
 }

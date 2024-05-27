@@ -18,8 +18,9 @@ import { Badge } from "./ui/badge";
 
 interface GoogleMapProps {
   markers: Marker[];
+  filter: string[];
 }
-const GoogleMapComponent = ({ markers }: GoogleMapProps) => {
+const GoogleMapComponent = ({ markers, filter }: GoogleMapProps) => {
   const [selectedPlace, setSelectedPlace] = React.useState<Marker | null>(null);
   const [selectedPhase, setSelectedPhase] = React.useState<string[]>([
     "Neu",
@@ -82,7 +83,7 @@ const GoogleMapComponent = ({ markers }: GoogleMapProps) => {
           {(clusterer) => (
             <>
               {markers
-                .filter((marker) => selectedPhase.includes(marker.phase))
+                .filter((marker) => filter.includes(marker.phase))
                 .map((marker, index) => (
                   <MarkerF
                     key={index}
