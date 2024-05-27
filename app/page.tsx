@@ -20,9 +20,9 @@ export interface Marker {
   };
 }
 export default function Home() {
-  const router = useRouter();
-  const { query } = router;
-  const filter = query.filter as string;
+  // const router = useRouter();
+  // const { query } = router;
+  // const filter = query.filter as string;
 
   const [markers, setMarkers] = useState<Marker[]>([]);
 
