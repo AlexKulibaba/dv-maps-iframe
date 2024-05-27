@@ -7,8 +7,10 @@ import {
   MarkerClusterer,
   InfoWindowF,
 } from "@react-google-maps/api";
-import { Home } from "lucide-react";
+
 import { Marker } from "@/app/page";
+import { MapPin, Navigation, User } from "lucide-react";
+import { Button } from "./ui/button";
 
 interface GoogleMapProps {
   markers: Marker[];
@@ -78,18 +80,45 @@ const GoogleMapComponent = ({ markers }: GoogleMapProps) => {
                   }}
                 >
                   <div className="space-y-2">
-                    <h1 className="font-bold text-xl">{selectedPlace.name}</h1>
-                    <p className="max-w-40 overflow-hidden">Beschreibung</p>
-                    <p>
-                      <a
-                        href={`https://www.google.com/maps/dir/?api=1&destination=${selectedPlace.position.lat},${selectedPlace.position.lng}`}
-                        target="_blank"
-                        rel="noreferrer"
-                        className="text-blue-500"
-                      >
-                        Route
-                      </a>
+                    <div className="flex justify-between items-center space-x-2">
+                      <MapPin className="h-10 w-10 text-red-600 bg-red-600/20 p-1 rounded-md" />
+                      <div className="flex justify-start items-start flex-col">
+                        <h1 className="font-bold text-xl space-y-0">
+                          {selectedPlace.name}
+                        </h1>
+                        <p className="text-gray-500 text-[12px] font-normal hover:underline">
+                          <a
+                            href={`https://www.google.com/maps/search/?api=1&query=${selectedPlace.position.lat},${selectedPlace.position.lng}`}
+                            target="_blank"
+                            rel="noopener noreferrer"
+                            // className="text-blue-500 underline"
+                          >
+                            {selectedPlace.position.address}
+                          </a>
+                        </p>
+                      </div>
+                    </div>
+                    <a
+                      href={`https://digital-vereinfacht.ninoxdb.de/#/teams/xk9zrexbm17q6bfqc/database/lryyv6de5s5z/module/H/view/soXcWZRUOpQXj6PT/node/H1/tab/0`}
+                      target="_blank"
+                      rel="noreferrer"
+                      className="text-black font-normal flex space-x-1 "
+                    >
+                      <User className="h-4 w-4" />
+                      <span>Alexander Kulibaba</span>
+                    </a>
+                    <p className="max-w-40 min-w-32 overflow-hidden">
+                      {selectedPlace.description}
                     </p>
+                    <a
+                      href={`https://www.google.com/maps/dir/?api=1&destination=${selectedPlace.position.lat},${selectedPlace.position.lng}`}
+                      target="_blank"
+                      rel="noreferrer"
+                      className="text-white flex space-x-1 bg-blue-500 p-1 rounded-md items-center w-16"
+                    >
+                      <Navigation className="h-4 w-4" />
+                      <span>Route</span>
+                    </a>
                   </div>
                 </InfoWindowF>
               )}
