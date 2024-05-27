@@ -11,12 +11,22 @@ import {
 import { Marker } from "@/app/page";
 import { MapPin, Navigation, User } from "lucide-react";
 import { Button } from "./ui/button";
+import { styleText } from "util";
+import { pinImages } from "@/images/pin-manager";
+import { get } from "http";
+import { Badge } from "./ui/badge";
 
 interface GoogleMapProps {
   markers: Marker[];
 }
 const GoogleMapComponent = ({ markers }: GoogleMapProps) => {
   const [selectedPlace, setSelectedPlace] = React.useState<Marker | null>(null);
+  const [selectedPhase, setSelectedPhase] = React.useState<string[]>([
+    "Neu",
+    "In Arbeit",
+    "Inspektion",
+    "Abgeschlossen",
+  ]);
   const containerStyle = {
     width: "100vw",
     height: "100vh",
@@ -26,6 +36,23 @@ const GoogleMapComponent = ({ markers }: GoogleMapProps) => {
     mapId: "YOUR_MAP_ID",
     mapTypeControl: false,
     streetViewControl: false,
+  };
+
+  const getImageForPhase = (phase: string) => {
+    switch (phase) {
+      case "0":
+        return pinImages[0];
+      case "Neu":
+        return pinImages[1];
+      case "In Arbeit":
+        return pinImages[2];
+      case "Inspektion":
+        return pinImages[3];
+      case "Abgeschlossen":
+        return pinImages[4];
+      default:
+        return pinImages[0];
+    }
   };
 
   const center = { lat: 50.7753, lng: 6.0839 };
@@ -54,18 +81,22 @@ const GoogleMapComponent = ({ markers }: GoogleMapProps) => {
         >
           {(clusterer) => (
             <>
-              {markers.map((marker, index) => (
-                <MarkerF
-                  key={index}
-                  position={marker.position}
-                  clusterer={clusterer}
-                  onClick={() => {
-                    marker === selectedPlace
-                      ? setSelectedPlace(null)
-                      : setSelectedPlace(marker);
-                  }}
-                />
-              ))}
+              {markers
+                .filter((marker) => selectedPhase.includes(marker.phase))
+                .map((marker, index) => (
+                  <MarkerF
+                    key={index}
+                    options={{ icon: getImageForPhase(marker.phase) }}
+                    //   options={{ icon: pinImages[4] }}
+                    position={marker.position}
+                    clusterer={clusterer}
+                    onClick={() => {
+                      marker === selectedPlace
+                        ? setSelectedPlace(null)
+                        : setSelectedPlace(marker);
+                    }}
+                  />
+                ))}
               {selectedPlace && (
                 <InfoWindowF
                   position={selectedPlace.position}
@@ -98,7 +129,7 @@ const GoogleMapComponent = ({ markers }: GoogleMapProps) => {
                         </p>
                       </div>
                     </div>
-                    <a
+                    {/* <a
                       href={`https://digital-vereinfacht.ninoxdb.de/#/teams/xk9zrexbm17q6bfqc/database/lryyv6de5s5z/module/H/view/soXcWZRUOpQXj6PT/node/H1/tab/0`}
                       target="_blank"
                       rel="noreferrer"
@@ -106,7 +137,8 @@ const GoogleMapComponent = ({ markers }: GoogleMapProps) => {
                     >
                       <User className="h-4 w-4" />
                       <span>Alexander Kulibaba</span>
-                    </a>
+                    </a> */}
+                    <Badge className="rounded-sm">{selectedPlace.phase}</Badge>
                     <p className="max-w-40 min-w-32 overflow-hidden">
                       {selectedPlace.description}
                     </p>

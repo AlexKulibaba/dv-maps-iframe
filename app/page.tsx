@@ -6,11 +6,12 @@ import { extractCoordinates } from "@/lib/utils";
 import axios from "axios";
 
 import Image from "next/image";
+import { useRouter } from "next/router";
 import { use, useEffect, useState } from "react";
 
 export interface Marker {
   name: string;
-  data: any;
+  phase: string;
   description: string;
   position: {
     lat: number;
@@ -19,6 +20,10 @@ export interface Marker {
   };
 }
 export default function Home() {
+  const router = useRouter();
+  const { query } = router;
+  const filter = query.filter as string;
+
   const [markers, setMarkers] = useState<Marker[]>([]);
 
   function getCoordinatesArray(
@@ -50,6 +55,7 @@ export default function Home() {
         const data = response.data;
         return data;
       });
+
       return data;
     } catch (e) {
       console.log("[CODE_ERROR]", e);
@@ -65,7 +71,7 @@ export default function Home() {
           if (coordinates) {
             return {
               name: item.fields.Name || "test",
-              data: "test",
+              phase: item.fields.Phase || "0",
               description: item.fields.Beschreibung || "",
               position: coordinates,
             };
@@ -75,6 +81,7 @@ export default function Home() {
         })
         .filter((item: any) => item !== null);
 
+      console.log(newMarkers);
       setMarkers(newMarkers);
     });
   }, []);
