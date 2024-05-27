@@ -12,6 +12,7 @@
     "@googlemaps/js-api-loader": "^1.16.6",
     "@radix-ui/react-slot": "^1.0.2",
     "@react-google-maps/api": "^2.19.3",
+    "@vis.gl/react-google-maps": "^1.0.0",
     "axios": "^1.7.2",
     "class-variance-authority": "^0.7.0",
     "clsx": "^2.1.1",

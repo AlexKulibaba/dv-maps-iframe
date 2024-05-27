@@ -2,11 +2,12 @@
 
 import GoogleMap from "@/components/google-map";
 import Map from "@/components/map";
+
 import { extractCoordinates } from "@/lib/utils";
 import axios from "axios";
 
 import Image from "next/image";
-import { use, useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 
 export interface Marker {
   name: string;
@@ -82,6 +83,8 @@ export default function Home() {
   return (
     <main className="flex min-h-screen flex-col items-center justify-center">
       <GoogleMap markers={markers} />
+
+      {/* {markers.length > 0 && <NewMap markers={markers} />} */}
     </main>
   );
 }
