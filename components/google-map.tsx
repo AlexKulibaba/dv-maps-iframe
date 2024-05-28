@@ -21,7 +21,7 @@ interface GoogleMapProps {
   markers: Marker[];
   // filter: string[];
 }
-const possibleFilters = ["Neu", "In Arbeit", "Inspektion", "Abgeschlossen"];
+const possibleFilters = ["Neu", "In Arbeit", "Inspektion", "Fertig"];
 
 const GoogleMapComponent = ({ markers }: GoogleMapProps) => {
   const [selectedPlace, setSelectedPlace] = React.useState<Marker | null>(null);
