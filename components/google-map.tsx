@@ -18,14 +18,11 @@ import { Badge } from "./ui/badge";
 import { useSearchParams } from "next/navigation";
 
 interface GoogleMapProps {
-
   markers: LocationMarker[];
-
 }
 const possibleFilters = ["Neu", "In Arbeit", "Inspektion", "Fertig"];
 
 const GoogleMapComponent = ({ markers }: GoogleMapProps) => {
-
   const [selectedPlace, setSelectedPlace] =
     React.useState<LocationMarker | null>(null);
 

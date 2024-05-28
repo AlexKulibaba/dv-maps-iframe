@@ -11,7 +11,6 @@ import Image from "next/image";
 import { useSearchParams } from "next/navigation";
 import { Suspense, use, useEffect, useState } from "react";
 
-
 export interface LocationMarker {
   name: string;
   phase: string;
@@ -24,9 +23,7 @@ export interface LocationMarker {
 }
 
 export default function Home() {
-
   const [markers, setMarkers] = useState<LocationMarker[]>([]);
-
 
   function getCoordinatesArray(
     inputArray: string[]
@@ -90,13 +87,10 @@ export default function Home() {
 
   return (
     <main className="flex min-h-screen flex-col items-center justify-center">
-
-
       <Suspense fallback={<div>Loading...</div>}>
-        <NewMap markers={markers} />
-       
+        {/* <NewMap markers={markers} /> */}
+        <GoogleMap markers={markers} />
       </Suspense>
-
     </main>
   );
 }
