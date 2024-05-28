@@ -52,14 +52,14 @@ export default function NewMap({ markers }: NewMapProps) {
   };
   return (
     <div style={{ height: "100vh", width: "100%" }}>
-      <div className="absolute top-4 left-4 z-10">
+      {/* <div className="absolute top-4 left-4 z-10">
         <SearchBar
           markers={markers.filter((marker) =>
             selectedFilter.includes(marker.phase)
           )}
           onSelect={focusOnMarker}
         />
-      </div>
+      </div> */}
       <APIProvider apiKey={process.env.NEXT_PUBLIC_GOOGLE_MAPS_API_KEY}>
         <Map
           mapTypeControl={false}
