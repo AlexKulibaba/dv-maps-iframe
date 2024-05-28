@@ -1,70 +1,89 @@
-// TODO fuer custom marker: https://www.youtube.com/watch?v=ZvoMak9yApU
+"use client";
 
-// import { Marker } from "@/app/page";
-// import {
-//   APIProvider,
-//   AdvancedMarker,
-//   Map,
-//   useMap,
-// } from "@vis.gl/react-google-maps";
-// import { MapPin } from "lucide-react";
-// import React, { use, useEffect, useRef } from "react";
-// import { Marker as ClusterMarker } from "@googlemaps/markerclusterer";
-// import { MarkerClusterer } from "@react-google-maps/api";
+import {
+  APIProvider,
+  Map,
+  useMap,
+  AdvancedMarker,
+} from "@vis.gl/react-google-maps";
+import { MarkerClusterer } from "@googlemaps/markerclusterer";
+import type { Marker } from "@googlemaps/markerclusterer";
+import { useEffect, useState, useRef } from "react";
+import { LocationMarker } from "@/app/page";
+import { MarkerWithInfoWindow } from "./marker-with-info-window";
+// import trees from "../../data/trees";
+const trees = [{ name: "Oak, English", lat: 43.64, lng: -79.41, key: "ABCD" }];
 
-// interface GoogleMapProps {
-//   markers: Marker[];
-// }
+interface NewMapProps {
+  markers: LocationMarker[];
+}
 
-// const NewMap = ({ markers }: GoogleMapProps) => {
-//   return (
-//     <APIProvider apiKey={process.env.NEXT_PUBLIC_GOOGLE_MAPS_API_KEY as string}>
-//       <Map
-//         mapId={"YOUR_MAP_ID"}
-//         style={{ width: "100vw", height: "100vh" }}
-//         defaultCenter={{ lat: 22.54992, lng: 0 }}
-//         defaultZoom={5}
-//         gestureHandling={"greedy"}
-//         disableDefaultUI={true}
-//       />
-//       <Markers points={markers} />
-//     </APIProvider>
-//   );
-// };
+export default function NewMap({ markers }: NewMapProps) {
+  if (!process.env.NEXT_PUBLIC_GOOGLE_MAPS_API_KEY) {
+    throw new Error("Missing NEXT_PUBLIC_GOOGLE_MAPS_API_KEY");
+  }
+  return (
+    <div style={{ height: "100vh", width: "100%" }}>
+      <APIProvider apiKey={process.env.NEXT_PUBLIC_GOOGLE_MAPS_API_KEY}>
+        <Map
+          //   center={{ lat: 43.64, lng: -79.41 }}
+          defaultCenter={{ lat: 50.7753455, lng: 6.0838868 }}
+          defaultZoom={10}
+          mapId={"process.env.NEXT_PUBLIC_MAP_ID"}
+        >
+          <Markers points={markers} />
+        </Map>
+      </APIProvider>
+    </div>
+  );
+}
 
-// type Props = { points: Marker[] };
-// const Markers = ({ points }: Props) => {
-//   const map = useMap();
-//   const [marker, setMarker] = React.useState<{ [key: string]: ClusterMarker }>(
-//     {}
-//   );
-//   const clusterer = useRef<MarkerClusterer | null>(null);
+type Point = google.maps.LatLngLiteral & { key: string };
+type Props = { points: LocationMarker[] };
 
-//   useEffect(() => {
-//     if (!map) return;
-//     if (!clusterer.current) {
-//       clusterer.current = new MarkerClusterer({ map });
-//     }
-//   }, [map]);
+const Markers = ({ points }: Props) => {
+  const map = useMap();
+  const [markers, setMarkers] = useState<{ [key: string]: Marker }>({});
+  const clusterer = useRef<MarkerClusterer | null>(null);
 
-//   const setMarkerRef = (marker: ClusterMarker, key: string) => {
-//     setMarker((prev) => ({ ...prev, [key]: marker }));
-//   };
-//   return (
-//     <>
-//       {points.map((point, index) => (
-//         <AdvancedMarker
-//           clickable={true}
-//           position={point.position}
-//           key={index}
-//           className="hover:bg-white"
-//           ref={(marker) => setMarkerRef(marker, point.key)}
-//         >
-//           <MapPin className="w-8 h-8 hover:bg-red-600/50 " />
-//         </AdvancedMarker>
-//       ))}
-//     </>
-//   );
-// };
+  useEffect(() => {
+    if (!map) return;
+    if (!clusterer.current) {
+      clusterer.current = new MarkerClusterer({ map });
+    }
+  }, [map]);
 
-// export default NewMap;
+  useEffect(() => {
+    clusterer.current?.clearMarkers();
+    clusterer.current?.addMarkers(Object.values(markers));
+  }, [markers]);
+
+  const setMarkerRef = (marker: Marker | null, key: string) => {
+    if (marker && markers[key]) return;
+    if (!marker && !markers[key]) return;
+
+    setMarkers((prev) => {
+      if (marker) {
+        return { ...prev, [key]: marker };
+      } else {
+        const newMarkers = { ...prev };
+        delete newMarkers[key];
+        return newMarkers;
+      }
+    });
+  };
+
+  return (
+    <>
+      {points.map((point) => (
+        <MarkerWithInfoWindow
+          point={point}
+          // key={point.name}
+          // ref={(marker) => setMarkerRef(marker, point.name)}
+        >
+          <span style={{ fontSize: "2rem" }}>🌳</span>
+        </MarkerWithInfoWindow>
+      ))}
+    </>
+  );
+};

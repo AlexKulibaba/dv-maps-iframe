@@ -2,6 +2,7 @@
 
 import GoogleMap from "@/components/google-map";
 import Map from "@/components/map";
+import NewMap from "@/components/new-map";
 
 import { extractCoordinates } from "@/lib/utils";
 import axios from "axios";
@@ -9,7 +10,7 @@ import axios from "axios";
 import Image from "next/image";
 import { useEffect, useState } from "react";
 
-export interface Marker {
+export interface LocationMarker {
   name: string;
   data: any;
   description: string;
@@ -20,7 +21,7 @@ export interface Marker {
   };
 }
 export default function Home() {
-  const [markers, setMarkers] = useState<Marker[]>([]);
+  const [markers, setMarkers] = useState<LocationMarker[]>([]);
 
   function getCoordinatesArray(
     inputArray: string[]
@@ -82,9 +83,9 @@ export default function Home() {
 
   return (
     <main className="flex min-h-screen flex-col items-center justify-center">
-      <GoogleMap markers={markers} />
+      {/* <GoogleMap markers={markers} /> */}
 
-      {/* {markers.length > 0 && <NewMap markers={markers} />} */}
+      <NewMap markers={markers} />
     </main>
   );
 }

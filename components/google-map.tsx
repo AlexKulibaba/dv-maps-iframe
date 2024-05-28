@@ -8,15 +8,16 @@ import {
   InfoWindowF,
 } from "@react-google-maps/api";
 
-import { Marker } from "@/app/page";
+import { LocationMarker } from "@/app/page";
 import { MapPin, Navigation, User } from "lucide-react";
 import { Button } from "./ui/button";
 
 interface GoogleMapProps {
-  markers: Marker[];
+  markers: LocationMarker[];
 }
 const GoogleMapComponent = ({ markers }: GoogleMapProps) => {
-  const [selectedPlace, setSelectedPlace] = React.useState<Marker | null>(null);
+  const [selectedPlace, setSelectedPlace] =
+    React.useState<LocationMarker | null>(null);
   const containerStyle = {
     width: "100vw",
     height: "100vh",
