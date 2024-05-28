@@ -2,8 +2,6 @@
 
 import GoogleMap from "@/components/google-map";
 import Map from "@/components/map";
-import NewMap from "@/components/new-map";
-
 import { extractCoordinates } from "@/lib/utils";
 import axios from "axios";
 
@@ -11,7 +9,7 @@ import Image from "next/image";
 import { useSearchParams } from "next/navigation";
 import { Suspense, use, useEffect, useState } from "react";
 
-export interface LocationMarker {
+export interface Marker {
   name: string;
   phase: string;
   description: string;
@@ -23,8 +21,7 @@ export interface LocationMarker {
 }
 
 export default function Home() {
-  const [markers, setMarkers] = useState<LocationMarker[]>([]);
-
+  const [markers, setMarkers] = useState<Marker[]>([]);
   function getCoordinatesArray(
     inputArray: string[]
   ): Array<{ lat: number; lng: number }> {
@@ -93,7 +90,6 @@ export default function Home() {
   return (
     <main className="flex min-h-screen flex-col items-center justify-center">
       <Suspense fallback={<div>Loading...</div>}>
-        {/* <NewMap markers={markers} /> */}
         <GoogleMap markers={markers} />
       </Suspense>
     </main>

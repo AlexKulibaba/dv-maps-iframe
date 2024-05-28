@@ -1,0 +1,243 @@
+[
+  {
+    "fields": {
+      "Name": "Projekt 1",
+      "Ort": "Am Dom 1, 52062 Aachen, Germany <50.7753455,6.0838868>",
+      "Beschreibung": "Das ist der Eintrag für Projekt 1",
+      "Phase": "Entwicklung"
+    }
+  },
+  {
+    "fields": {
+      "Name": "Projekt 2",
+      "Ort": "Pontstraße 10, 52062 Aachen, Germany <50.7771763,6.0822876>",
+      "Beschreibung": "Das ist der Eintrag für Projekt 2",
+      "Phase": "Planung"
+    }
+  },
+  {
+    "fields": {
+      "Name": "Projekt 3",
+      "Ort": "Theaterstraße 17, 52062 Aachen, Germany <50.7738839,6.0855429>",
+      "Beschreibung": "Das ist der Eintrag für Projekt 3",
+      "Phase": "Bauphase"
+    }
+  },
+  {
+    "fields": {
+      "Name": "Projekt 4",
+      "Ort": "Lütticher Straße 10, 52064 Aachen, Germany <50.768675,6.080643>",
+      "Beschreibung": "Das ist der Eintrag für Projekt 4",
+      "Phase": "Gewährleistung"
+    }
+  },
+  {
+    "fields": {
+      "Name": "Projekt 5",
+      "Ort": "Jakobstraße 21, 52064 Aachen, Germany <50.770245,6.088619>",
+      "Beschreibung": "Das ist der Eintrag für Projekt 5",
+      "Phase": "Entwicklung"
+    }
+  },
+  {
+    "fields": {
+      "Name": "Projekt 6",
+      "Ort": "Krefelder Straße 35, 52070 Aachen, Germany <50.782735,6.091263>",
+      "Beschreibung": "Das ist der Eintrag für Projekt 6",
+      "Phase": "Planung"
+    }
+  },
+  {
+    "fields": {
+      "Name": "Projekt 7",
+      "Ort": "Vaalser Straße 50, 52074 Aachen, Germany <50.764467,6.046639>",
+      "Beschreibung": "Das ist der Eintrag für Projekt 7",
+      "Phase": "Bauphase"
+    }
+  },
+  {
+    "fields": {
+      "Name": "Projekt 8",
+      "Ort": "Jülicher Straße 90, 52070 Aachen, Germany <50.787144,6.110256>",
+      "Beschreibung": "Das ist der Eintrag für Projekt 8",
+      "Phase": "Gewährleistung"
+    }
+  },
+  {
+    "fields": {
+      "Name": "Projekt 9",
+      "Ort": "Adalbertstraße 100, 52062 Aachen, Germany <50.772993,6.090554>",
+      "Beschreibung": "Das ist der Eintrag für Projekt 9",
+      "Phase": "Entwicklung"
+    }
+  },
+  {
+    "fields": {
+      "Name": "Projekt 10",
+      "Ort": "Boxgraben 20, 52064 Aachen, Germany <50.767973,6.081644>",
+      "Beschreibung": "Das ist der Eintrag für Projekt 10",
+      "Phase": "Planung"
+    }
+  },
+  {
+    "fields": {
+      "Name": "Projekt 11",
+      "Ort": "Haarenstraße 1, 52080 Aachen, Germany <50.806761,6.129404>",
+      "Beschreibung": "Das ist der Eintrag für Projekt 11",
+      "Phase": "Bauphase"
+    }
+  },
+  {
+    "fields": {
+      "Name": "Projekt 12",
+      "Ort": "Lousbergstraße 15, 52072 Aachen, Germany <50.779923,6.078149>",
+      "Beschreibung": "Das ist der Eintrag für Projekt 12",
+      "Phase": "Gewährleistung"
+    }
+  },
+  {
+    "fields": {
+      "Name": "Projekt 13",
+      "Ort": "Grüner Weg 90, 52070 Aachen, Germany <50.783603,6.092146>",
+      "Beschreibung": "Das ist der Eintrag für Projekt 13",
+      "Phase": "Entwicklung"
+    }
+  },
+  {
+    "fields": {
+      "Name": "Projekt 14",
+      "Ort": "Seffenter Weg 45, 52074 Aachen, Germany <50.774303,6.056007>",
+      "Beschreibung": "Das ist der Eintrag für Projekt 14",
+      "Phase": "Planung"
+    }
+  },
+  {
+    "fields": {
+      "Name": "Projekt 15",
+      "Ort": "Hubertusstraße 30, 52064 Aachen, Germany <50.763978,6.086334>",
+      "Beschreibung": "Das ist der Eintrag für Projekt 15",
+      "Phase": "Bauphase"
+    }
+  },
+  {
+    "fields": {
+      "Name": "Projekt 16",
+      "Ort": "Elsaßstraße 10, 52068 Aachen, Germany <50.773663,6.105726>",
+      "Beschreibung": "Das ist der Eintrag für Projekt 16",
+      "Phase": "Gewährleistung"
+    }
+  },
+  {
+    "fields": {
+      "Name": "Projekt 17",
+      "Ort": "Wilhelmstraße 100, 52070 Aachen, Germany <50.775963,6.104473>",
+      "Beschreibung": "Das ist der Eintrag für Projekt 17",
+      "Phase": "Entwicklung"
+    }
+  },
+  {
+    "fields": {
+      "Name": "Projekt 18",
+      "Ort": "Bismarckstraße 50, 52066 Aachen, Germany <50.764279,6.115129>",
+      "Beschreibung": "Das ist der Eintrag für Projekt 18",
+      "Phase": "Planung"
+    }
+  },
+  {
+    "fields": {
+      "Name": "Projekt 19",
+      "Ort": "Viktoriastraße 10, 52066 Aachen, Germany <50.765379,6.091389>",
+      "Beschreibung": "Das ist der Eintrag für Projekt 19",
+      "Phase": "Bauphase"
+    }
+  },
+  {
+    "fields": {
+      "Name": "Projekt 20",
+      "Ort": "Rathausstraße 5, 52072 Aachen, Germany <50.770920,6.051882>",
+      "Beschreibung": "Das ist der Eintrag für Projekt 20",
+      "Phase": "Gewährleistung"
+    }
+  },
+
+  {
+    "fields": {
+      "Name": "Projekt 21",
+      "Ort": "Marktplatz 1, 52134 Herzogenrath, Germany <50.872722,6.091978>",
+      "Beschreibung": "Das ist der Eintrag für Projekt 21",
+      "Phase": "Entwicklung"
+    }
+  },
+  {
+    "fields": {
+      "Name": "Projekt 22",
+      "Ort": "Hauptstraße 20, 52477 Alsdorf, Germany <50.875663,6.166225>",
+      "Beschreibung": "Das ist der Eintrag für Projekt 22",
+      "Phase": "Planung"
+    }
+  },
+  {
+    "fields": {
+      "Name": "Projekt 23",
+      "Ort": "Schlossstraße 15, 52249 Eschweiler, Germany <50.818560,6.273457>",
+      "Beschreibung": "Das ist der Eintrag für Projekt 23",
+      "Phase": "Bauphase"
+    }
+  },
+  {
+    "fields": {
+      "Name": "Projekt 24",
+      "Ort": "Markt 3, 52156 Monschau, Germany <50.554871,6.240724>",
+      "Beschreibung": "Das ist der Eintrag für Projekt 24",
+      "Phase": "Gewährleistung"
+    }
+  },
+  {
+    "fields": {
+      "Name": "Projekt 25",
+      "Ort": "Kirchstraße 7, 52146 Würselen, Germany <50.828950,6.137048>",
+      "Beschreibung": "Das ist der Eintrag für Projekt 25",
+      "Phase": "Entwicklung"
+    }
+  },
+  {
+    "fields": {
+      "Name": "Projekt 26",
+      "Ort": "Kaiserstraße 10, 52152 Simmerath, Germany <50.605743,6.295503>",
+      "Beschreibung": "Das ist der Eintrag für Projekt 26",
+      "Phase": "Planung"
+    }
+  },
+  {
+    "fields": {
+      "Name": "Projekt 27",
+      "Ort": "Bahnhofstraße 1, 52222 Stolberg, Germany <50.773625,6.225241>",
+      "Beschreibung": "Das ist der Eintrag für Projekt 27",
+      "Phase": "Bauphase"
+    }
+  },
+  {
+    "fields": {
+      "Name": "Projekt 28",
+      "Ort": "Hauptstraße 12, 52499 Baesweiler, Germany <50.909942,6.188274>",
+      "Beschreibung": "Das ist der Eintrag für Projekt 28",
+      "Phase": "Gewährleistung"
+    }
+  },
+  {
+    "fields": {
+      "Name": "Projekt 29",
+      "Ort": "Marktstraße 2, 52159 Roetgen, Germany <50.651248,6.196816>",
+      "Beschreibung": "Das ist der Eintrag für Projekt 29",
+      "Phase": "Entwicklung"
+    }
+  },
+  {
+    "fields": {
+      "Name": "Projekt 30",
+      "Ort": "Kirchweg 1, 52147 Breinig, Germany <50.738978,6.214845>",
+      "Beschreibung": "Das ist der Eintrag für Projekt 30",
+      "Phase": "Planung"
+    }
+  }
+]

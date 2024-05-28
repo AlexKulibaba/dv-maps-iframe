@@ -15,6 +15,9 @@ import { LocationMarker } from "@/app/page";
 import React from "react";
 import { MapPin, Navigation } from "lucide-react";
 import { Badge } from "./ui/badge";
+
+import SearchBar from "./search-bar";
+
 // import trees from "../../data/trees";
 const trees = [{ name: "Oak, English", lat: 43.64, lng: -79.41, key: "ABCD" }];
 
@@ -26,16 +29,35 @@ export default function NewMap({ markers }: NewMapProps) {
   if (!process.env.NEXT_PUBLIC_GOOGLE_MAPS_API_KEY) {
     throw new Error("Missing NEXT_PUBLIC_GOOGLE_MAPS_API_KEY");
   }
+
+  const [selectedPlace, setSelectedPlace] =
+    React.useState<LocationMarker | null>(null);
+
+  const focusOnMarker = (marker: LocationMarker) => {
+    setSelectedPlace(marker);
+    console.log("focusOnMarker", marker);
+  };
   return (
     <div style={{ height: "100vh", width: "100%" }}>
+      <div className="absolute top-4 left-4 z-10">
+        <SearchBar markers={markers} onSelect={focusOnMarker} />
+      </div>
       <APIProvider apiKey={process.env.NEXT_PUBLIC_GOOGLE_MAPS_API_KEY}>
         <Map
-          //   center={{ lat: 43.64, lng: -79.41 }}
+          mapTypeControl={false}
+          streetViewControl={false}
+
           defaultCenter={{ lat: 50.7753455, lng: 6.0838868 }}
           defaultZoom={10}
           mapId={"process.env.NEXT_PUBLIC_MAP_ID"}
         >
-          <Markers points={markers} />
+
+          <Markers
+            selectedPlace={selectedPlace}
+            setSelectedPlace={setSelectedPlace}
+            points={markers}
+          />
+
         </Map>
       </APIProvider>
     </div>
@@ -43,15 +65,19 @@ export default function NewMap({ markers }: NewMapProps) {
 }
 
 type Point = google.maps.LatLngLiteral & { key: string };
-type Props = { points: LocationMarker[] };
 
-const Markers = ({ points }: Props) => {
+type Props = {
+  points: LocationMarker[];
+  selectedPlace: LocationMarker | null;
+  setSelectedPlace: (point: LocationMarker | null) => void;
+};
+
+const Markers = ({ points, selectedPlace, setSelectedPlace }: Props) => {
+
   const map = useMap();
   const [markers, setMarkers] = useState<{ [key: string]: Marker }>({});
   const clusterer = useRef<MarkerClusterer | null>(null);
 
-  const [selectedPlace, setSelectedPlace] =
-    React.useState<LocationMarker | null>(null);
 
   useEffect(() => {
     if (!map) return;
