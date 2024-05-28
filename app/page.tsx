@@ -90,10 +90,8 @@ export default function Home() {
   }, []);
 
   return (
-    <Suspense fallback={<div>Loading...</div>}>
-      <main className="flex min-h-screen flex-col items-center justify-center">
-        <GoogleMap markers={markers} filter={selectedFilter} />
-      </main>
-    </Suspense>
+    <main className="flex min-h-screen flex-col items-center justify-center">
+      <GoogleMap markers={markers} filter={selectedFilter} />
+    </main>
   );
 }
