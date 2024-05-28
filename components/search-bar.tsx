@@ -1,4 +1,4 @@
-import { Marker } from "@/app/page";
+import { LocationMarker } from "@/app/page";
 import React from "react";
 import { Input } from "./ui/input";
 import { ScrollArea } from "./ui/scroll-area";
@@ -8,8 +8,8 @@ import { Navigation } from "lucide-react";
 import { Separator } from "./ui/separator";
 
 interface SearchBarProps {
-  markers: Marker[];
-  onSelect: (marker: Marker) => void;
+  markers: LocationMarker[];
+  onSelect: (marker: LocationMarker) => void;
 }
 
 const SearchBar = ({ markers, onSelect }: SearchBarProps) => {

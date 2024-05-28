@@ -8,7 +8,7 @@ import {
   InfoWindowF,
 } from "@react-google-maps/api";
 
-import { Marker } from "@/app/page";
+import { LocationMarker } from "@/app/page";
 import { MapPin, Navigation, User } from "lucide-react";
 import { Button } from "./ui/button";
 import { styleText } from "util";
@@ -19,7 +19,7 @@ import { useSearchParams } from "next/navigation";
 import SearchBar from "./search-bar";
 
 interface GoogleMapProps {
-  markers: Marker[];
+  markers: LocationMarker[];
   // filter: string[];
 }
 // const possibleFilters = ["Neu", "In Arbeit", "Inspektion", "Fertig"];
@@ -31,7 +31,8 @@ const possibleFilters = [
 ];
 
 const GoogleMapComponent = ({ markers }: GoogleMapProps) => {
-  const [selectedPlace, setSelectedPlace] = React.useState<Marker | null>(null);
+  const [selectedPlace, setSelectedPlace] =
+    React.useState<LocationMarker | null>(null);
 
   const searchParams = useSearchParams();
   const filter = searchParams.get("filter");
@@ -81,7 +82,7 @@ const GoogleMapComponent = ({ markers }: GoogleMapProps) => {
     return <div>Loading...</div>;
   }
 
-  const focusOnMarker = (marker: Marker) => {
+  const focusOnMarker = (marker: LocationMarker) => {
     setSelectedPlace(marker);
     console.log("focusOnMarker", marker);
   };
