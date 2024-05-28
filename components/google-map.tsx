@@ -16,6 +16,7 @@ import { pinImages } from "@/images/pin-manager";
 import { get } from "http";
 import { Badge } from "./ui/badge";
 import { useSearchParams } from "next/navigation";
+import SearchBar from "./search-bar";
 
 interface GoogleMapProps {
   markers: Marker[];
@@ -79,99 +80,117 @@ const GoogleMapComponent = ({ markers }: GoogleMapProps) => {
   if (!isLoaded) {
     return <div>Loading...</div>;
   }
+
+  const focusOnMarker = (marker: Marker) => {
+    setSelectedPlace(marker);
+    console.log("focusOnMarker", marker);
+  };
+
   return (
     isLoaded && (
-      <GoogleMap
-        mapContainerStyle={containerStyle}
-        center={center}
-        zoom={10}
-        options={options}
-      >
-        <MarkerClusterer
-          options={{
-            imagePath:
-              "https://developers.google.com/maps/documentation/javascript/examples/markerclusterer/m",
-          }}
+      <div>
+        <div className="absolute top-4 left-4 z-10">
+          <SearchBar
+            markers={markers.filter((marker) =>
+              selectedFilter.includes(marker.phase)
+            )}
+            onSelect={focusOnMarker}
+          />
+        </div>
+        <GoogleMap
+          mapContainerStyle={containerStyle}
+          center={center}
+          zoom={10}
+          options={options}
         >
-          {(clusterer) => (
-            <>
-              {markers
-                .filter((marker) => selectedFilter.includes(marker.phase))
-                .map((marker, index) => (
-                  <MarkerF
-                    key={index}
-                    options={{ icon: getImageForPhase(marker.phase) }}
-                    //   options={{ icon: pinImages[4] }}
-                    position={marker.position}
-                    clusterer={clusterer}
-                    onClick={() => {
-                      marker === selectedPlace
-                        ? setSelectedPlace(null)
-                        : setSelectedPlace(marker);
+          <MarkerClusterer
+            options={{
+              imagePath:
+                "https://developers.google.com/maps/documentation/javascript/examples/markerclusterer/m",
+            }}
+          >
+            {(clusterer) => (
+              <>
+                {markers
+                  .filter((marker) => selectedFilter.includes(marker.phase))
+                  .map((marker, index) => (
+                    <MarkerF
+                      key={index}
+                      options={{ icon: getImageForPhase(marker.phase) }}
+                      //   options={{ icon: pinImages[4] }}
+                      position={marker.position}
+                      clusterer={clusterer}
+                      onClick={() => {
+                        marker === selectedPlace
+                          ? setSelectedPlace(null)
+                          : setSelectedPlace(marker);
+                      }}
+                    />
+                  ))}
+                {selectedPlace && (
+                  <InfoWindowF
+                    position={selectedPlace.position}
+                    onCloseClick={() => setSelectedPlace(null)}
+                    zIndex={100}
+                    options={{
+                      pixelOffset: {
+                        width: 0,
+                        height: -40,
+                        equals: () => false,
+                      },
                     }}
-                  />
-                ))}
-              {selectedPlace && (
-                <InfoWindowF
-                  position={selectedPlace.position}
-                  onCloseClick={() => setSelectedPlace(null)}
-                  zIndex={100}
-                  options={{
-                    pixelOffset: {
-                      width: 0,
-                      height: -40,
-                      equals: () => false,
-                    },
-                  }}
-                >
-                  <div className="space-y-2">
-                    <div className="flex justify-between items-center space-x-2">
-                      <MapPin className="h-10 w-10 text-red-600 bg-red-600/20 p-1 rounded-md" />
-                      <div className="flex justify-start items-start flex-col">
-                        <h1 className="font-bold text-xl space-y-0">
-                          {selectedPlace.name}
-                        </h1>
-                        <p className="text-gray-500 text-[12px] font-normal hover:underline">
-                          <a
-                            href={`https://www.google.com/maps/search/?api=1&query=${selectedPlace.position.lat},${selectedPlace.position.lng}`}
-                            target="_blank"
-                            rel="noopener noreferrer"
-                            // className="text-blue-500 underline"
-                          >
-                            {selectedPlace.position.address}
-                          </a>
-                        </p>
+                  >
+                    <div className="space-y-2">
+                      <div className="flex justify-between items-center space-x-2">
+                        <MapPin className="h-10 w-10 text-red-600 bg-red-600/20 p-1 rounded-md" />
+                        <div className="flex justify-start items-start flex-col">
+                          <h1 className="font-bold text-xl space-y-0">
+                            {selectedPlace.name}
+                          </h1>
+                          <p className="text-gray-500 text-[12px] font-normal hover:underline">
+                            <a
+                              href={`https://www.google.com/maps/search/?api=1&query=${selectedPlace.position.lat},${selectedPlace.position.lng}`}
+                              target="_blank"
+                              rel="noopener noreferrer"
+                              // className="text-blue-500 underline"
+                            >
+                              {selectedPlace.position.address}
+                            </a>
+                          </p>
+                        </div>
                       </div>
-                    </div>
-                    {/* <a
+                      {/* <a
                       href={`https://digital-vereinfacht.ninoxdb.de/#/teams/xk9zrexbm17q6bfqc/database/lryyv6de5s5z/module/H/view/soXcWZRUOpQXj6PT/node/H1/tab/0`}
                       target="_blank"
                       rel="noreferrer"
                       className="text-black font-normal flex space-x-1 "
-                    >
+                      >
                       <User className="h-4 w-4" />
                       <span>Alexander Kulibaba</span>
                     </a> */}
-                    <Badge className="rounded-sm">{selectedPlace.phase}</Badge>
-                    <p className="max-w-40 min-w-32 overflow-hidden">
-                      {selectedPlace.description}
-                    </p>
-                    <a
-                      href={`https://www.google.com/maps/dir/?api=1&destination=${selectedPlace.position.lat},${selectedPlace.position.lng}`}
-                      target="_blank"
-                      rel="noreferrer"
-                      className="text-white flex space-x-1 bg-blue-500 p-1 rounded-md items-center w-16"
-                    >
-                      <Navigation className="h-4 w-4" />
-                      <span>Route</span>
-                    </a>
-                  </div>
-                </InfoWindowF>
-              )}
-            </>
-          )}
-        </MarkerClusterer>
-      </GoogleMap>
+                      <Badge className="rounded-sm">
+                        {selectedPlace.phase}
+                      </Badge>
+                      <p className="max-w-40 min-w-32 overflow-hidden">
+                        {selectedPlace.description}
+                      </p>
+                      <a
+                        href={`https://www.google.com/maps/dir/?api=1&destination=${selectedPlace.position.lat},${selectedPlace.position.lng}`}
+                        target="_blank"
+                        rel="noreferrer"
+                        className="text-white flex space-x-1 bg-blue-500 p-1 rounded-md items-center w-16"
+                      >
+                        <Navigation className="h-4 w-4" />
+                        <span>Route</span>
+                      </a>
+                    </div>
+                  </InfoWindowF>
+                )}
+              </>
+            )}
+          </MarkerClusterer>
+        </GoogleMap>
+      </div>
     )
   );
 };
