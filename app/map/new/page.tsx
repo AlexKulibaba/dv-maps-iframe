@@ -21,20 +21,8 @@ export interface Marker {
   };
 }
 
-const possibleFilters = [
-  "Entwicklung",
-  "Planung",
-  "Bauphase",
-  "Gewährleistung",
-];
-
 export default function Home() {
   const [markers, setMarkers] = useState<Marker[]>([]);
-
-  const searchParams = useSearchParams();
-  const filter = searchParams.get("filter");
-  let selectedFilter = possibleFilters.filter((item) => filter?.includes(item));
-  if (selectedFilter.length === 0) selectedFilter = possibleFilters;
 
   const getMarkers = async () => {
     try {
@@ -87,11 +75,7 @@ export default function Home() {
   return (
     <main className="flex min-h-screen flex-col items-center justify-center">
       <Suspense fallback={<div>Loading...</div>}>
-        <NewMap
-          markers={markers.filter((marker) =>
-            selectedFilter.includes(marker.phase)
-          )}
-        />
+        <NewMap markers={markers} />
       </Suspense>
     </main>
   );

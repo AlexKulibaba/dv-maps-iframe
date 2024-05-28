@@ -17,6 +17,7 @@ import { MapPin, Navigation } from "lucide-react";
 import { Badge } from "./ui/badge";
 
 import SearchBar from "./search-bar";
+import { useSearchParams } from "next/navigation";
 
 // import trees from "../../data/trees";
 const trees = [{ name: "Oak, English", lat: 43.64, lng: -79.41, key: "ABCD" }];
@@ -25,10 +26,22 @@ interface NewMapProps {
   markers: LocationMarker[];
 }
 
+const possibleFilters = [
+  "Entwicklung",
+  "Planung",
+  "Bauphase",
+  "Gewährleistung",
+];
+
 export default function NewMap({ markers }: NewMapProps) {
   if (!process.env.NEXT_PUBLIC_GOOGLE_MAPS_API_KEY) {
     throw new Error("Missing NEXT_PUBLIC_GOOGLE_MAPS_API_KEY");
   }
+
+  const searchParams = useSearchParams();
+  const filter = searchParams.get("filter");
+  let selectedFilter = possibleFilters.filter((item) => filter?.includes(item));
+  if (selectedFilter.length === 0) selectedFilter = possibleFilters;
 
   const [selectedPlace, setSelectedPlace] =
     React.useState<LocationMarker | null>(null);
@@ -40,31 +53,33 @@ export default function NewMap({ markers }: NewMapProps) {
   return (
     <div style={{ height: "100vh", width: "100%" }}>
       <div className="absolute top-4 left-4 z-10">
-        <SearchBar markers={markers} onSelect={focusOnMarker} />
+        <SearchBar
+          markers={markers.filter((marker) =>
+            selectedFilter.includes(marker.phase)
+          )}
+          onSelect={focusOnMarker}
+        />
       </div>
       <APIProvider apiKey={process.env.NEXT_PUBLIC_GOOGLE_MAPS_API_KEY}>
         <Map
           mapTypeControl={false}
           streetViewControl={false}
-
           defaultCenter={{ lat: 50.7753455, lng: 6.0838868 }}
           defaultZoom={10}
           mapId={"process.env.NEXT_PUBLIC_MAP_ID"}
         >
-
           <Markers
             selectedPlace={selectedPlace}
             setSelectedPlace={setSelectedPlace}
-            points={markers}
+            points={markers.filter((marker) =>
+              selectedFilter.includes(marker.phase)
+            )}
           />
-
         </Map>
       </APIProvider>
     </div>
   );
 }
-
-type Point = google.maps.LatLngLiteral & { key: string };
 
 type Props = {
   points: LocationMarker[];
@@ -73,11 +88,9 @@ type Props = {
 };
 
 const Markers = ({ points, selectedPlace, setSelectedPlace }: Props) => {
-
   const map = useMap();
   const [markers, setMarkers] = useState<{ [key: string]: Marker }>({});
   const clusterer = useRef<MarkerClusterer | null>(null);
-
 
   useEffect(() => {
     if (!map) return;
