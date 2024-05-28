@@ -7,6 +7,8 @@ export function cn(...inputs: ClassValue[]) {
 }
 
 export const extractCoordinates = (location: string) => {
+  if (!location) return null;
+
   const regex = /<([0-9.-]+),([0-9.-]+)>/;
   const match = location.match(regex);
   if (match) {

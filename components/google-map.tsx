@@ -21,7 +21,13 @@ interface GoogleMapProps {
   markers: Marker[];
   // filter: string[];
 }
-const possibleFilters = ["Neu", "In Arbeit", "Inspektion", "Fertig"];
+// const possibleFilters = ["Neu", "In Arbeit", "Inspektion", "Fertig"];
+const possibleFilters = [
+  "Entwicklung",
+  "Planung",
+  "Bauphase",
+  "Gewährleistung",
+];
 
 const GoogleMapComponent = ({ markers }: GoogleMapProps) => {
   const [selectedPlace, setSelectedPlace] = React.useState<Marker | null>(null);
@@ -32,12 +38,8 @@ const GoogleMapComponent = ({ markers }: GoogleMapProps) => {
   if (selectedFilter.length === 0) selectedFilter = possibleFilters;
   console.log(selectedFilter);
 
-  // const [selectedPhase, setSelectedPhase] = React.useState<string[]>([
-  //   "Neu",
-  //   "In Arbeit",
-  //   "Inspektion",
-  //   "Abgeschlossen",
-  // ]);
+  const maps_api_key = searchParams.get("key");
+
   const containerStyle = {
     width: "100vw",
     height: "100vh",
@@ -70,6 +72,7 @@ const GoogleMapComponent = ({ markers }: GoogleMapProps) => {
 
   const { isLoaded } = useJsApiLoader({
     // id: "google-map-script",
+    // googleMapsApiKey: maps_api_key as string,
     googleMapsApiKey: process.env.NEXT_PUBLIC_GOOGLE_MAPS_API_KEY as string,
   });
 
