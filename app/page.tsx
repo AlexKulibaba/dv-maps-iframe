@@ -8,11 +8,13 @@ import { extractCoordinates } from "@/lib/utils";
 import axios from "axios";
 
 import Image from "next/image";
-import { useEffect, useState } from "react";
+import { useSearchParams } from "next/navigation";
+import { Suspense, use, useEffect, useState } from "react";
+
 
 export interface LocationMarker {
   name: string;
-  data: any;
+  phase: string;
   description: string;
   position: {
     lat: number;
@@ -20,8 +22,11 @@ export interface LocationMarker {
     address: string;
   };
 }
+
 export default function Home() {
+
   const [markers, setMarkers] = useState<LocationMarker[]>([]);
+
 
   function getCoordinatesArray(
     inputArray: string[]
@@ -52,6 +57,7 @@ export default function Home() {
         const data = response.data;
         return data;
       });
+
       return data;
     } catch (e) {
       console.log("[CODE_ERROR]", e);
@@ -67,7 +73,7 @@ export default function Home() {
           if (coordinates) {
             return {
               name: item.fields.Name || "test",
-              data: "test",
+              phase: item.fields.Phase || "0",
               description: item.fields.Beschreibung || "",
               position: coordinates,
             };
@@ -77,15 +83,20 @@ export default function Home() {
         })
         .filter((item: any) => item !== null);
 
+      console.log(newMarkers);
       setMarkers(newMarkers);
     });
   }, []);
 
   return (
     <main className="flex min-h-screen flex-col items-center justify-center">
-      {/* <GoogleMap markers={markers} /> */}
 
-      <NewMap markers={markers} />
+
+      <Suspense fallback={<div>Loading...</div>}>
+        <NewMap markers={markers} />
+       
+      </Suspense>
+
     </main>
   );
 }
