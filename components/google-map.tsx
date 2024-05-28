@@ -15,19 +15,29 @@ import { styleText } from "util";
 import { pinImages } from "@/images/pin-manager";
 import { get } from "http";
 import { Badge } from "./ui/badge";
+import { useSearchParams } from "next/navigation";
 
 interface GoogleMapProps {
   markers: Marker[];
-  filter: string[];
+  // filter: string[];
 }
-const GoogleMapComponent = ({ markers, filter }: GoogleMapProps) => {
+const possibleFilters = ["Neu", "In Arbeit", "Inspektion", "Abgeschlossen"];
+
+const GoogleMapComponent = ({ markers }: GoogleMapProps) => {
   const [selectedPlace, setSelectedPlace] = React.useState<Marker | null>(null);
-  const [selectedPhase, setSelectedPhase] = React.useState<string[]>([
-    "Neu",
-    "In Arbeit",
-    "Inspektion",
-    "Abgeschlossen",
-  ]);
+
+  const searchParams = useSearchParams();
+  const filter = searchParams.get("filter");
+  let selectedFilter = possibleFilters.filter((item) => filter?.includes(item));
+  if (selectedFilter.length === 0) selectedFilter = possibleFilters;
+  console.log(selectedFilter);
+
+  // const [selectedPhase, setSelectedPhase] = React.useState<string[]>([
+  //   "Neu",
+  //   "In Arbeit",
+  //   "Inspektion",
+  //   "Abgeschlossen",
+  // ]);
   const containerStyle = {
     width: "100vw",
     height: "100vh",
@@ -83,7 +93,7 @@ const GoogleMapComponent = ({ markers, filter }: GoogleMapProps) => {
           {(clusterer) => (
             <>
               {markers
-                .filter((marker) => filter.includes(marker.phase))
+                .filter((marker) => selectedFilter.includes(marker.phase))
                 .map((marker, index) => (
                   <MarkerF
                     key={index}

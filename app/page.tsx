@@ -20,15 +20,8 @@ export interface Marker {
   };
 }
 
-const possibleFilters = ["Neu", "In Arbeit", "Inspektion", "Abgeschlossen"];
 export default function Home() {
-  const searchParams = useSearchParams();
-  const filter = searchParams.get("filter");
-  let selectedFilter = possibleFilters.filter((item) => filter?.includes(item));
-  if (selectedFilter.length === 0) selectedFilter = possibleFilters;
-  console.log(selectedFilter);
   const [markers, setMarkers] = useState<Marker[]>([]);
-
   function getCoordinatesArray(
     inputArray: string[]
   ): Array<{ lat: number; lng: number }> {
@@ -91,7 +84,9 @@ export default function Home() {
 
   return (
     <main className="flex min-h-screen flex-col items-center justify-center">
-      <GoogleMap markers={markers} filter={selectedFilter} />
+      <Suspense fallback={<div>Loading...</div>}>
+        <GoogleMap markers={markers} />
+      </Suspense>
     </main>
   );
 }
