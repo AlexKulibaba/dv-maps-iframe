@@ -15,7 +15,9 @@ import { LocationMarker } from "@/app/page";
 import React from "react";
 import { MapPin, Navigation } from "lucide-react";
 import { Badge } from "./ui/badge";
+
 import SearchBar from "./search-bar";
+
 // import trees from "../../data/trees";
 const trees = [{ name: "Oak, English", lat: 43.64, lng: -79.41, key: "ABCD" }];
 
@@ -27,6 +29,7 @@ export default function NewMap({ markers }: NewMapProps) {
   if (!process.env.NEXT_PUBLIC_GOOGLE_MAPS_API_KEY) {
     throw new Error("Missing NEXT_PUBLIC_GOOGLE_MAPS_API_KEY");
   }
+
   const [selectedPlace, setSelectedPlace] =
     React.useState<LocationMarker | null>(null);
 
@@ -43,15 +46,18 @@ export default function NewMap({ markers }: NewMapProps) {
         <Map
           mapTypeControl={false}
           streetViewControl={false}
+
           defaultCenter={{ lat: 50.7753455, lng: 6.0838868 }}
           defaultZoom={10}
           mapId={"process.env.NEXT_PUBLIC_MAP_ID"}
         >
+
           <Markers
             selectedPlace={selectedPlace}
             setSelectedPlace={setSelectedPlace}
             points={markers}
           />
+
         </Map>
       </APIProvider>
     </div>
@@ -59,6 +65,7 @@ export default function NewMap({ markers }: NewMapProps) {
 }
 
 type Point = google.maps.LatLngLiteral & { key: string };
+
 type Props = {
   points: LocationMarker[];
   selectedPlace: LocationMarker | null;
@@ -66,9 +73,11 @@ type Props = {
 };
 
 const Markers = ({ points, selectedPlace, setSelectedPlace }: Props) => {
+
   const map = useMap();
   const [markers, setMarkers] = useState<{ [key: string]: Marker }>({});
   const clusterer = useRef<MarkerClusterer | null>(null);
+
 
   useEffect(() => {
     if (!map) return;

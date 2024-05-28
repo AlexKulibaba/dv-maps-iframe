@@ -20,7 +20,7 @@ import SearchBar from "./search-bar";
 
 interface GoogleMapProps {
   markers: LocationMarker[];
-  // filter: string[];
+
 }
 // const possibleFilters = ["Neu", "In Arbeit", "Inspektion", "Fertig"];
 const possibleFilters = [
@@ -40,7 +40,9 @@ const GoogleMapComponent = ({ markers }: GoogleMapProps) => {
   if (selectedFilter.length === 0) selectedFilter = possibleFilters;
   console.log(selectedFilter);
 
+
   const maps_api_key = searchParams.get("key");
+
 
   const containerStyle = {
     width: "100vw",

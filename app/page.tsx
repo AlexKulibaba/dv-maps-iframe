@@ -2,6 +2,8 @@
 
 import GoogleMap from "@/components/google-map";
 import Map from "@/components/map";
+import NewMap from "@/components/new-map";
+
 import { extractCoordinates } from "@/lib/utils";
 import axios from "axios";
 
@@ -22,6 +24,7 @@ export interface LocationMarker {
 
 export default function Home() {
   const [markers, setMarkers] = useState<LocationMarker[]>([]);
+
   function getCoordinatesArray(
     inputArray: string[]
   ): Array<{ lat: number; lng: number }> {
@@ -90,6 +93,7 @@ export default function Home() {
   return (
     <main className="flex min-h-screen flex-col items-center justify-center">
       <Suspense fallback={<div>Loading...</div>}>
+        {/* <NewMap markers={markers} /> */}
         <GoogleMap markers={markers} />
       </Suspense>
     </main>
