@@ -13,11 +13,12 @@ import { useEffect, useState, useRef } from "react";
 import { LocationMarker } from "@/app/page";
 
 import React from "react";
-import { MapPin, Navigation } from "lucide-react";
+import { Folder, MapPin, Navigation } from "lucide-react";
 import { Badge } from "./ui/badge";
 
 import SearchBar from "./search-bar";
 import { useSearchParams } from "next/navigation";
+import { cn } from "@/lib/utils";
 
 // import trees from "../../data/trees";
 const trees = [{ name: "Oak, English", lat: 43.64, lng: -79.41, key: "ABCD" }];
@@ -32,6 +33,13 @@ const possibleFilters = [
   "Bauphase",
   "Gewährleistung",
 ];
+
+const phaseColors: { [key: string]: string } = {
+  Entwicklung: "bg-blue-500",
+  Planung: "bg-amber-600",
+  Bauphase: "bg-red-500",
+  Gewährleistung: "bg-green-500",
+};
 
 export default function NewMap({ markers }: NewMapProps) {
   if (!process.env.NEXT_PUBLIC_GOOGLE_MAPS_API_KEY) {
@@ -52,14 +60,14 @@ export default function NewMap({ markers }: NewMapProps) {
   };
   return (
     <div style={{ height: "100vh", width: "100%" }}>
-      {/* <div className="absolute top-4 left-4 z-10">
+      <div className="absolute top-4 left-4 z-10">
         <SearchBar
           markers={markers.filter((marker) =>
             selectedFilter.includes(marker.phase)
           )}
           onSelect={focusOnMarker}
         />
-      </div> */}
+      </div>
       <APIProvider apiKey={process.env.NEXT_PUBLIC_GOOGLE_MAPS_API_KEY}>
         <Map
           mapTypeControl={false}
@@ -135,7 +143,12 @@ const Markers = ({ points, selectedPlace, setSelectedPlace }: Props) => {
           >
             <div className="relative inline-block">
               <div className="text-sm bg-white text-black rounded-sm font-medium flex flex-row items-center border border-black relative">
-                <MapPin className="h-6 w-6 text-white bg-red-600 p-[1px] rounded-sm" />
+                <MapPin
+                  className={cn(
+                    "h-6 w-6 text-white p-[1px] rounded-sm",
+                    phaseColors[point.phase]
+                  )}
+                />
                 <span className="px-1">{point.name}</span>
               </div>
               <div className="absolute left-1/2 transform -translate-x-1/2 top-full w-0 h-0 border-l-4 border-l-transparent border-r-4 border-r-transparent border-t-4 border-t-black"></div>
@@ -179,15 +192,26 @@ const Markers = ({ points, selectedPlace, setSelectedPlace }: Props) => {
                 <p className="max-w-40 min-w-32 overflow-hidden">
                   {point.description}
                 </p>
-                <a
-                  href={`https://www.google.com/maps/dir/?api=1&destination=${point.position.lat},${point.position.lng}`}
-                  target="_blank"
-                  rel="noreferrer"
-                  className="text-white flex space-x-1 bg-blue-500 p-1 rounded-md items-center w-16"
-                >
-                  <Navigation className="h-4 w-4" />
-                  <span>Route</span>
-                </a>
+                <div className="flex space-x-2 ">
+                  <a
+                    href={`https://www.google.com/maps/dir/?api=1&destination=${point.position.lat},${point.position.lng}`}
+                    target="_blank"
+                    rel="noreferrer"
+                    className="text-white flex space-x-1 bg-blue-500 p-1 rounded-md items-center w-16"
+                  >
+                    <Navigation className="h-4 w-4" />
+                    <span>Route</span>
+                  </a>
+                  <a
+                    href={`https://www.google.com/maps/dir/?api=1&destination=${point.position.lat},${point.position.lng}`}
+                    target="_blank"
+                    rel="noreferrer"
+                    className="text-black border flex space-x-1 hover:bg-slate-200 p-1 rounded-md items-center"
+                  >
+                    <Folder className="h-4 w-4" />
+                    <span>Projektdaten</span>
+                  </a>
+                </div>
               </div>
             </InfoWindow>
           )}
