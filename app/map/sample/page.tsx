@@ -69,6 +69,8 @@ export default function Home() {
           const coordinates = extractCoordinates(item.fields.Ort);
           if (coordinates) {
             return {
+              id: item.id,
+              link: item.fields.Link || "",
               name: item.fields.Name || "test",
               phase: item.fields.Phase || "0",
               description: item.fields.Beschreibung || "",
