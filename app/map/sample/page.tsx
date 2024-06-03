@@ -10,6 +10,8 @@ import { useSearchParams } from "next/navigation";
 import { Suspense, use, useEffect, useState } from "react";
 
 export interface Marker {
+  id: string;
+  link: string;
   name: string;
   phase: string;
   description: string;
