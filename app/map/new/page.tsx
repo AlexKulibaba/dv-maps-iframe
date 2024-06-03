@@ -82,6 +82,7 @@ export default function Home() {
     <main className="flex min-h-screen flex-col items-center justify-center">
       <Suspense fallback={<div>Loading...</div>}>
         <NewMap
+          api_key="test"
           markers={markers}
           filters={possibleFilters.dvEntwicklung}
           colors={phaseColors.dvEntwicklung}
