@@ -9,7 +9,7 @@ import {
 } from "@vis.gl/react-google-maps";
 import { MarkerClusterer } from "@googlemaps/markerclusterer";
 import type { Marker } from "@googlemaps/markerclusterer";
-import { useEffect, useState, useRef } from "react";
+import { useEffect, useState, useRef, Suspense } from "react";
 import { LocationMarker } from "@/app/page";
 
 import React from "react";
@@ -78,50 +78,54 @@ export default function NewMap({
     console.log("focusOnMarker", marker);
   };
   return (
-    <div style={{ height: "100vh", width: "100%" }}>
-      {!params_key && (
-        <div className="h-full w-full flex items-center justify-center text-4xl">
-          <p className="bg-red-600 text-white p-4 rounded-sm">API Key fehlt</p>
-        </div>
-      )}
-      {params_key && params_key !== api_key && (
-        <div className="h-full w-full flex items-center justify-center text-4xl">
-          <p className="bg-red-600 text-white p-4 rounded-sm">
-            API Key ist nicht gültig
-          </p>
-        </div>
-      )}
-      {params_key == api_key && (
-        <>
-          <div className="absolute top-4 left-4 z-10">
-            <SearchBar
-              markers={markers.filter((marker) =>
-                selectedFilter.includes(marker.phase)
-              )}
-              onSelect={focusOnMarker}
-            />
+    <Suspense fallback={<div>Loading...</div>}>
+      <div style={{ height: "100vh", width: "100%" }}>
+        {!params_key && (
+          <div className="h-full w-full flex items-center justify-center text-4xl">
+            <p className="bg-red-600 text-white p-4 rounded-sm">
+              API Key fehlt
+            </p>
           </div>
-          <APIProvider apiKey={process.env.NEXT_PUBLIC_GOOGLE_MAPS_API_KEY}>
-            <Map
-              mapTypeControl={false}
-              streetViewControl={false}
-              defaultCenter={{ lat: 50.7753455, lng: 6.0838868 }}
-              defaultZoom={10}
-              mapId={"process.env.NEXT_PUBLIC_MAP_ID"}
-            >
-              <Markers
-                selectedPlace={selectedPlace}
-                setSelectedPlace={setSelectedPlace}
-                points={markers.filter((marker) =>
+        )}
+        {params_key && params_key !== api_key && (
+          <div className="h-full w-full flex items-center justify-center text-4xl">
+            <p className="bg-red-600 text-white p-4 rounded-sm">
+              API Key ist nicht gültig
+            </p>
+          </div>
+        )}
+        {params_key == api_key && (
+          <>
+            <div className="absolute top-4 left-4 z-10">
+              <SearchBar
+                markers={markers.filter((marker) =>
                   selectedFilter.includes(marker.phase)
                 )}
-                colors={colors}
+                onSelect={focusOnMarker}
               />
-            </Map>
-          </APIProvider>
-        </>
-      )}
-    </div>
+            </div>
+            <APIProvider apiKey={process.env.NEXT_PUBLIC_GOOGLE_MAPS_API_KEY}>
+              <Map
+                mapTypeControl={false}
+                streetViewControl={false}
+                defaultCenter={{ lat: 50.7753455, lng: 6.0838868 }}
+                defaultZoom={10}
+                mapId={"process.env.NEXT_PUBLIC_MAP_ID"}
+              >
+                <Markers
+                  selectedPlace={selectedPlace}
+                  setSelectedPlace={setSelectedPlace}
+                  points={markers.filter((marker) =>
+                    selectedFilter.includes(marker.phase)
+                  )}
+                  colors={colors}
+                />
+              </Map>
+            </APIProvider>
+          </>
+        )}
+      </div>
+    </Suspense>
   );
 }
 
