@@ -30,7 +30,7 @@ export default function Home() {
       let config = {
         method: "get",
         maxBodyLength: Infinity,
-        url: "https://digital-vereinfacht.ninoxdb.de/v1/teams/xk9zrexbm17q6bfqc/databases/lryyv6de5s5z/tables/L/records/",
+        url: "https://digital-vereinfacht.ninoxdb.de/v1/teams/vivh3t4uidqlg69jk/databases/brfog9v7nl2z/tables/WB/records",
 
         headers: {
           Authorization: "Bearer 40d25de0-19b8-11ef-b4f9-09d220c0ba76",
@@ -48,17 +48,20 @@ export default function Home() {
       console.log("[CODE_ERROR]", e);
     }
   };
-
   useEffect(() => {
     getMarkers().then((data) => {
       console.log(data);
       const newMarkers = data
         .map((item: any) => {
-          const coordinates = extractCoordinates(item.fields.Ort);
+          const coordinates = extractCoordinates(item.fields.Standort);
           if (coordinates) {
             return {
-              name: item.fields.Name || "test",
-              phase: item.fields.Phase || "0",
+              name:
+                "[" +
+                  item.fields.Projektnummer +
+                  "] " +
+                  item.fields.Projektname || "test",
+              phase: item.fields.Projektphase || "0",
               description: item.fields.Beschreibung || "",
               position: coordinates,
             };
@@ -68,7 +71,7 @@ export default function Home() {
         })
         .filter((item: any) => item !== null);
 
-      console.log("markers:", newMarkers);
+      console.log(newMarkers);
       setMarkers(newMarkers);
     });
   }, []);
@@ -78,8 +81,8 @@ export default function Home() {
       <Suspense fallback={<div>Loading...</div>}>
         <NewMap
           markers={markers}
-          filters={possibleFilters.dvEntwicklung}
-          colors={phaseColors.dvEntwicklung}
+          filters={possibleFilters.dvDemo}
+          colors={phaseColors.dvDemo}
         />
       </Suspense>
     </main>

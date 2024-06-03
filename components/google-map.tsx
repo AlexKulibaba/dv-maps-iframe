@@ -89,14 +89,14 @@ const GoogleMapComponent = ({ markers }: GoogleMapProps) => {
   return (
     isLoaded && (
       <div>
-        {/* <div className="absolute top-4 left-4 z-10">
+        <div className="absolute top-4 left-4 z-10">
           <SearchBar
             markers={markers.filter((marker) =>
               selectedFilter.includes(marker.phase)
             )}
             onSelect={focusOnMarker}
           />
-        </div> */}
+        </div>
         <GoogleMap
           mapContainerStyle={containerStyle}
           center={center}
@@ -152,7 +152,6 @@ const GoogleMapComponent = ({ markers }: GoogleMapProps) => {
                               href={`https://www.google.com/maps/search/?api=1&query=${selectedPlace.position.lat},${selectedPlace.position.lng}`}
                               target="_blank"
                               rel="noopener noreferrer"
-                              // className="text-blue-500 underline"
                             >
                               {selectedPlace.position.address}
                             </a>

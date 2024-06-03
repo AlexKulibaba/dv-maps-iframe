@@ -25,31 +25,19 @@ const trees = [{ name: "Oak, English", lat: 43.64, lng: -79.41, key: "ABCD" }];
 
 interface NewMapProps {
   markers: LocationMarker[];
+  filters: string[];
+  colors: { [key: string]: string };
 }
 
-const possibleFilters = [
-  "Entwicklung",
-  "Planung",
-  "Bauphase",
-  "Gewährleistung",
-];
-
-const phaseColors: { [key: string]: string } = {
-  Entwicklung: "bg-blue-500",
-  Planung: "bg-amber-600",
-  Bauphase: "bg-red-500",
-  Gewährleistung: "bg-green-500",
-};
-
-export default function NewMap({ markers }: NewMapProps) {
+export default function NewMap({ markers, filters, colors }: NewMapProps) {
   if (!process.env.NEXT_PUBLIC_GOOGLE_MAPS_API_KEY) {
     throw new Error("Missing NEXT_PUBLIC_GOOGLE_MAPS_API_KEY");
   }
 
   const searchParams = useSearchParams();
   const filter = searchParams.get("filter");
-  let selectedFilter = possibleFilters.filter((item) => filter?.includes(item));
-  if (selectedFilter.length === 0) selectedFilter = possibleFilters;
+  let selectedFilter = filters.filter((item) => filter?.includes(item));
+  if (selectedFilter.length === 0) selectedFilter = filters;
 
   const [selectedPlace, setSelectedPlace] =
     React.useState<LocationMarker | null>(null);
@@ -82,6 +70,7 @@ export default function NewMap({ markers }: NewMapProps) {
             points={markers.filter((marker) =>
               selectedFilter.includes(marker.phase)
             )}
+            colors={colors}
           />
         </Map>
       </APIProvider>
@@ -93,9 +82,15 @@ type Props = {
   points: LocationMarker[];
   selectedPlace: LocationMarker | null;
   setSelectedPlace: (point: LocationMarker | null) => void;
+  colors: { [key: string]: string };
 };
 
-const Markers = ({ points, selectedPlace, setSelectedPlace }: Props) => {
+const Markers = ({
+  points,
+  selectedPlace,
+  setSelectedPlace,
+  colors,
+}: Props) => {
   const map = useMap();
   const [markers, setMarkers] = useState<{ [key: string]: Marker }>({});
   const clusterer = useRef<MarkerClusterer | null>(null);
@@ -142,16 +137,17 @@ const Markers = ({ points, selectedPlace, setSelectedPlace }: Props) => {
             }}
           >
             <div className="relative inline-block">
-              <div className="text-sm bg-white text-black rounded-sm font-medium flex flex-row items-center border border-black relative">
+              <div className="text-sm w-32 hover:w-full hover-expand bg-white  text-black rounded-sm font-medium flex flex-row items-center border border-black">
                 <MapPin
                   className={cn(
-                    "h-6 w-6 text-white p-[1px] rounded-sm",
-                    phaseColors[point.phase]
+                    "h-6 w-6 text-white p-[1px] rounded-sm flex-shrink-0",
+                    colors[point.phase]
                   )}
                 />
-                <span className="px-1">{point.name}</span>
+                <span className="px-1 truncate ... ">{point.name}</span>
+
+                <div className="absolute left-1/2 transform -translate-x-1/2 top-full w-0 h-0 border-l-4 border-l-transparent border-r-4 border-r-transparent border-t-4 border-t-black"></div>
               </div>
-              <div className="absolute left-1/2 transform -translate-x-1/2 top-full w-0 h-0 border-l-4 border-l-transparent border-r-4 border-r-transparent border-t-4 border-t-black"></div>
             </div>
           </AdvancedMarker>
           {selectedPlace === point && (
