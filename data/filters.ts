@@ -30,3 +30,8 @@ export const phaseColors = {
     Gewährleistung: "bg-green-500",
   },
 };
+
+export const keys = {
+  dvEntwicklung: "xk9zrexbm17q6bfqc",
+  dvDemo: "vivh3t4uidqlg69jk",
+};

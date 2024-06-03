@@ -3,7 +3,7 @@
 import GoogleMap from "@/components/google-map";
 import Map from "@/components/map";
 import NewMap from "@/components/new-map";
-import { phaseColors, possibleFilters } from "@/data/filters";
+import { keys, phaseColors, possibleFilters } from "@/data/filters";
 import { extractCoordinates } from "@/lib/utils";
 import axios from "axios";
 
@@ -11,7 +11,9 @@ import Image from "next/image";
 import { useSearchParams } from "next/navigation";
 import { Suspense, use, useEffect, useState } from "react";
 
-export interface Marker {
+export interface LocationMarker {
+  id: string;
+  link: string;
   name: string;
   phase: string;
   description: string;
@@ -23,7 +25,7 @@ export interface Marker {
 }
 
 export default function Home() {
-  const [markers, setMarkers] = useState<Marker[]>([]);
+  const [markers, setMarkers] = useState<LocationMarker[]>([]);
 
   const getMarkers = async () => {
     try {
@@ -56,6 +58,8 @@ export default function Home() {
           const coordinates = extractCoordinates(item.fields.Standort);
           if (coordinates) {
             return {
+              id: item.id,
+              link: "https://digital-vereinfacht.ninoxdb.de/#/teams/vivh3t4uidqlg69jk/database/brfog9v7nl2z/module/home/view/tables",
               name:
                 "[" +
                   item.fields.Projektnummer +
@@ -83,6 +87,7 @@ export default function Home() {
           markers={markers}
           filters={possibleFilters.dvDemo}
           colors={phaseColors.dvDemo}
+          api_key={keys.dvDemo}
         />
       </Suspense>
     </main>

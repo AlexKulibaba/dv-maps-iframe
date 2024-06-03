@@ -20,13 +20,11 @@ import SearchBar from "./search-bar";
 import { useSearchParams } from "next/navigation";
 import { cn } from "@/lib/utils";
 
-// import trees from "../../data/trees";
-const trees = [{ name: "Oak, English", lat: 43.64, lng: -79.41, key: "ABCD" }];
-
 interface NewMapProps {
   markers: LocationMarker[];
   filters: string[];
   colors: { [key: string]: string };
+  api_key: string;
 }
 
 // const phaseColors = {
@@ -48,7 +46,12 @@ interface NewMapProps {
 //   },
 // };
 
-export default function NewMap({ markers, filters, colors }: NewMapProps) {
+export default function NewMap({
+  markers,
+  filters,
+  colors,
+  api_key,
+}: NewMapProps) {
   if (!process.env.NEXT_PUBLIC_GOOGLE_MAPS_API_KEY) {
     throw new Error("Missing NEXT_PUBLIC_GOOGLE_MAPS_API_KEY");
   }
@@ -57,6 +60,15 @@ export default function NewMap({ markers, filters, colors }: NewMapProps) {
   const filter = searchParams.get("filter");
   let selectedFilter = filters.filter((item) => filter?.includes(item));
   if (selectedFilter.length === 0) selectedFilter = filters;
+
+  const params_key = searchParams.get("key");
+
+  if (!params_key) {
+    console.log("Missing API key");
+  }
+  if (params_key && params_key !== api_key) {
+    console.log("Invalid API key:", params_key);
+  }
 
   const [selectedPlace, setSelectedPlace] =
     React.useState<LocationMarker | null>(null);
@@ -67,32 +79,48 @@ export default function NewMap({ markers, filters, colors }: NewMapProps) {
   };
   return (
     <div style={{ height: "100vh", width: "100%" }}>
-      <div className="absolute top-4 left-4 z-10">
-        <SearchBar
-          markers={markers.filter((marker) =>
-            selectedFilter.includes(marker.phase)
-          )}
-          onSelect={focusOnMarker}
-        />
-      </div>
-      <APIProvider apiKey={process.env.NEXT_PUBLIC_GOOGLE_MAPS_API_KEY}>
-        <Map
-          mapTypeControl={false}
-          streetViewControl={false}
-          defaultCenter={{ lat: 50.7753455, lng: 6.0838868 }}
-          defaultZoom={10}
-          mapId={"process.env.NEXT_PUBLIC_MAP_ID"}
-        >
-          <Markers
-            selectedPlace={selectedPlace}
-            setSelectedPlace={setSelectedPlace}
-            points={markers.filter((marker) =>
-              selectedFilter.includes(marker.phase)
-            )}
-            colors={colors}
-          />
-        </Map>
-      </APIProvider>
+      {!params_key && (
+        <div className="h-full w-full flex items-center justify-center text-4xl">
+          <p className="bg-red-600 text-white p-4 rounded-sm">API Key fehlt</p>
+        </div>
+      )}
+      {params_key && params_key !== api_key && (
+        <div className="h-full w-full flex items-center justify-center text-4xl">
+          <p className="bg-red-600 text-white p-4 rounded-sm">
+            API Key ist nicht gültig
+          </p>
+        </div>
+      )}
+      {params_key == api_key && (
+        <>
+          <div className="absolute top-4 left-4 z-10">
+            <SearchBar
+              markers={markers.filter((marker) =>
+                selectedFilter.includes(marker.phase)
+              )}
+              onSelect={focusOnMarker}
+            />
+          </div>
+          <APIProvider apiKey={process.env.NEXT_PUBLIC_GOOGLE_MAPS_API_KEY}>
+            <Map
+              mapTypeControl={false}
+              streetViewControl={false}
+              defaultCenter={{ lat: 50.7753455, lng: 6.0838868 }}
+              defaultZoom={10}
+              mapId={"process.env.NEXT_PUBLIC_MAP_ID"}
+            >
+              <Markers
+                selectedPlace={selectedPlace}
+                setSelectedPlace={setSelectedPlace}
+                points={markers.filter((marker) =>
+                  selectedFilter.includes(marker.phase)
+                )}
+                colors={colors}
+              />
+            </Map>
+          </APIProvider>
+        </>
+      )}
     </div>
   );
 }
@@ -218,7 +246,7 @@ const Markers = ({
                     <span>Route</span>
                   </a>
                   <a
-                    href={`https://www.google.com/maps/dir/?api=1&destination=${point.position.lat},${point.position.lng}`}
+                    href={point.link}
                     target="_blank"
                     rel="noreferrer"
                     className="text-black border flex space-x-1 hover:bg-slate-200 p-1 rounded-md items-center"

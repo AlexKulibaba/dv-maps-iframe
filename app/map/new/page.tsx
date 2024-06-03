@@ -6,12 +6,15 @@ import NewMap from "@/components/new-map";
 import { phaseColors, possibleFilters } from "@/data/filters";
 import { extractCoordinates } from "@/lib/utils";
 import axios from "axios";
+import { link } from "fs";
 
 import Image from "next/image";
 import { useSearchParams } from "next/navigation";
 import { Suspense, use, useEffect, useState } from "react";
 
 export interface Marker {
+  id: string;
+  link: string;
   name: string;
   phase: string;
   description: string;
@@ -57,6 +60,8 @@ export default function Home() {
           const coordinates = extractCoordinates(item.fields.Ort);
           if (coordinates) {
             return {
+              id: item.id,
+              link: item.fields.Link || "",
               name: item.fields.Name || "test",
               phase: item.fields.Phase || "0",
               description: item.fields.Beschreibung || "",

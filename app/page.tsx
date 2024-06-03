@@ -12,6 +12,8 @@ import { useSearchParams } from "next/navigation";
 import { Suspense, use, useEffect, useState } from "react";
 
 export interface LocationMarker {
+  id: string;
+  link: string;
   name: string;
   phase: string;
   description: string;
