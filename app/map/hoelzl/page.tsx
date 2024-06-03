@@ -1,9 +1,7 @@
 "use client";
 
-import GoogleMap from "@/components/google-map";
-import Map from "@/components/map";
 import NewMap from "@/components/new-map";
-import { keys, phaseColors, possibleFilters } from "@/data/filters";
+import { keys, phaseColors, possibleFilters } from "@/data/data";
 import { extractCoordinates } from "@/lib/utils";
 import axios from "axios";
 

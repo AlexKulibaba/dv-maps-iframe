@@ -27,25 +27,6 @@ interface NewMapProps {
   api_key: string;
 }
 
-// const phaseColors = {
-//   dvEntwicklung: {
-//     Entwicklung: "bg-blue-500",
-//     Planung: "bg-amber-600",
-//     Bauphase: "bg-red-500",
-//     Gewährleistung: "bg-green-500",
-//   },
-//   dvDemo: {
-//     Anfrage: "bg-green-500",
-//     Kalkulation: "bg-green-600",
-//     Arbeitsvorbereitung: "bg-red-500",
-//     Rohbau: "bg-green-500",
-//     Ausbau: "bg-blue-500",
-//     Fertigstellung: "bg-amber-600",
-//     Verhandlung: "bg-red-500",
-//     Gewährleistung: "bg-green-500",
-//   },
-// };
-
 export default function NewMap({
   markers,
   filters,

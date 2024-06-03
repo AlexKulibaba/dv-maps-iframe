@@ -1,13 +1,10 @@
 "use client";
 
 import GoogleMap from "@/components/google-map";
-import Map from "@/components/map";
 import { extractCoordinates } from "@/lib/utils";
 import axios from "axios";
 
-import Image from "next/image";
-import { useSearchParams } from "next/navigation";
-import { Suspense, use, useEffect, useState } from "react";
+import { Suspense, useEffect, useState } from "react";
 
 export interface Marker {
   id: string;
@@ -24,18 +21,6 @@ export interface Marker {
 
 export default function Home() {
   const [markers, setMarkers] = useState<Marker[]>([]);
-  function getCoordinatesArray(
-    inputArray: string[]
-  ): Array<{ lat: number; lng: number }> {
-    const regex = /<(\d+\.\d+),(\d+\.\d+)>/;
-    return inputArray.map((input) => {
-      const match = input.match(regex);
-      if (match) {
-        return { lat: parseFloat(match[1]), lng: parseFloat(match[2]) };
-      }
-      return { lat: 0, lng: 0 };
-    });
-  }
 
   const getMarkers = async () => {
     try {
