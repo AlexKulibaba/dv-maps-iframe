@@ -27,9 +27,34 @@ interface NewMapProps {
   markers: LocationMarker[];
   filters: string[];
   colors: { [key: string]: string };
+  customer: string;
 }
 
-export default function NewMap({ markers, filters, colors }: NewMapProps) {
+// const phaseColors = {
+//   dvEntwicklung: {
+//     Entwicklung: "bg-blue-500",
+//     Planung: "bg-amber-600",
+//     Bauphase: "bg-red-500",
+//     Gewährleistung: "bg-green-500",
+//   },
+//   dvDemo: {
+//     Anfrage: "bg-green-500",
+//     Kalkulation: "bg-green-600",
+//     Arbeitsvorbereitung: "bg-red-500",
+//     Rohbau: "bg-green-500",
+//     Ausbau: "bg-blue-500",
+//     Fertigstellung: "bg-amber-600",
+//     Verhandlung: "bg-red-500",
+//     Gewährleistung: "bg-green-500",
+//   },
+// };
+
+export default function NewMap({
+  markers,
+  filters,
+  colors,
+  customer,
+}: NewMapProps) {
   if (!process.env.NEXT_PUBLIC_GOOGLE_MAPS_API_KEY) {
     throw new Error("Missing NEXT_PUBLIC_GOOGLE_MAPS_API_KEY");
   }
@@ -137,7 +162,7 @@ const Markers = ({
             }}
           >
             <div className="relative inline-block">
-              <div className="text-sm w-32 hover:w-full hover-expand bg-white  text-black rounded-sm font-medium flex flex-row items-center border border-black">
+              <div className="text-sm w-32 hover:w-full  bg-white  text-black rounded-sm font-medium flex flex-row items-center border border-black">
                 <MapPin
                   className={cn(
                     "h-6 w-6 text-white p-[1px] rounded-sm flex-shrink-0",
