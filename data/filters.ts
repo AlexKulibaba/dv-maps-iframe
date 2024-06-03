@@ -10,6 +10,14 @@ export const possibleFilters = {
     "Gewährleistung",
     "Verhandlung",
   ],
+  hoelzl: [
+    "Abgschlossen",
+    "Archiv",
+    "Aktuell",
+    "Abgerechnet",
+    "Nicht Beauftragt",
+    "Beauftragt",
+  ],
 };
 
 export const phaseColors = {
@@ -29,9 +37,18 @@ export const phaseColors = {
     Verhandlung: "bg-red-500",
     Gewährleistung: "bg-green-500",
   },
+  hoelzl: {
+    Abgschlossen: "bg-green-500",
+    Archiv: "bg-green-600",
+    Aktuell: "bg-red-500",
+    Abgerechnet: "bg-green-500",
+    "Nicht Beauftragt": "bg-blue-500",
+    Beauftragt: "bg-amber-600",
+  },
 };
 
 export const keys = {
   dvEntwicklung: "xk9zrexbm17q6bfqc",
   dvDemo: "vivh3t4uidqlg69jk",
+  hoelzl: "DSKP3zkNBJ",
 };
