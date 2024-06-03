@@ -27,7 +27,6 @@ interface NewMapProps {
   markers: LocationMarker[];
   filters: string[];
   colors: { [key: string]: string };
-  customer: string;
 }
 
 // const phaseColors = {
@@ -49,12 +48,7 @@ interface NewMapProps {
 //   },
 // };
 
-export default function NewMap({
-  markers,
-  filters,
-  colors,
-  customer,
-}: NewMapProps) {
+export default function NewMap({ markers, filters, colors }: NewMapProps) {
   if (!process.env.NEXT_PUBLIC_GOOGLE_MAPS_API_KEY) {
     throw new Error("Missing NEXT_PUBLIC_GOOGLE_MAPS_API_KEY");
   }
