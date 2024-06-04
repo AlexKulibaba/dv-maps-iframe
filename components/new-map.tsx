@@ -183,7 +183,7 @@ const Markers = ({
             }}
           >
             <div className="relative inline-block">
-              <div className="text-sm w-32 hover:w-full  bg-white  text-black rounded-sm font-medium flex flex-row items-center border border-black">
+              <div className="text-sm max-w-32 hover:max-w-full hover:w-full  bg-white  text-black rounded-sm font-medium flex flex-row items-center border border-black">
                 <MapPin
                   className={cn(
                     "h-6 w-6 text-white p-[1px] rounded-sm flex-shrink-0",
