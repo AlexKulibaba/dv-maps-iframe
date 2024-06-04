@@ -203,7 +203,7 @@ const Markers = ({
               pixelOffset={[0, -40]}
             >
               <div className="space-y-2">
-                <div className="flex justify-between items-center space-x-2">
+                <div className="flex justify-start items-center space-x-2">
                   <MapPin className="h-10 w-10 text-red-600 bg-red-600/20 p-1 rounded-md" />
                   <div className="flex justify-start items-start flex-col">
                     <h1 className="font-bold text-xl space-y-0">
@@ -244,7 +244,7 @@ const Markers = ({
                     <Navigation className="h-4 w-4" />
                     <span>Route</span>
                   </a>
-                  <a
+                  {/* <a
                     href={point.link}
                     target="_blank"
                     rel="noreferrer"
@@ -252,7 +252,7 @@ const Markers = ({
                   >
                     <Folder className="h-4 w-4" />
                     <span>Projektdaten</span>
-                  </a>
+                  </a> */}
                 </div>
               </div>
             </InfoWindow>
