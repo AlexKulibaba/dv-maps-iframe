@@ -4,8 +4,9 @@ import GoogleMap from "@/components/google-map";
 import Map from "@/components/map";
 import NewMap from "@/components/new-map";
 import { dvDemo, keys, phaseColors, possibleFilters } from "@/data/data";
-import { extractCoordinates } from "@/lib/utils";
+import { extractCoordinates, getCoordinatesFromAddress } from "@/lib/utils";
 import axios from "axios";
+import { get } from "http";
 
 import Image from "next/image";
 import { useSearchParams } from "next/navigation";
@@ -53,11 +54,12 @@ export default function Home() {
       console.log("[CODE_ERROR]", e);
     }
   };
+
   useEffect(() => {
-    getMarkers().then((data) => {
+    getMarkers().then(async (data) => {
       console.log(data);
-      const newMarkers = data
-        .map((item: any) => {
+      const newMarkers = await Promise.all(
+        data.map(async (item: any) => {
           const coordinates = extractCoordinates(item.fields.Standort);
           if (coordinates) {
             return {
@@ -73,13 +75,39 @@ export default function Home() {
               position: coordinates,
             };
           } else {
-            return null;
+            const strasse = item.fields["Straße und Hausnummer"];
+            const plz = item.fields.PLZ;
+            const ort = item.fields.Ort;
+
+            const address = `${strasse}, ${plz} ${ort}`;
+            const newEntry = await getCoordinatesFromAddress(address).then(
+              (newCoords: { lat: any; lng: any } | null) => {
+                if (newCoords) {
+                  return {
+                    id: item.id,
+                    link: "dummy",
+                    name:
+                      "[" +
+                        item.fields.Projektnummer +
+                        "] " +
+                        item.fields.Projektname || "test",
+                    phase: item.fields.Projektphase || "0",
+                    description: item.fields.Beschreibung || "",
+                    position: newCoords,
+                  };
+                }
+                return null; // Return null if no coordinates are found
+              }
+            );
+            return newEntry;
           }
         })
-        .filter((item: any) => item !== null);
+      );
 
-      console.log(newMarkers);
-      setMarkers(newMarkers);
+      const filteredMarkers = newMarkers.filter((item: any) => item !== null);
+
+      console.log(filteredMarkers);
+      setMarkers(filteredMarkers);
     });
   }, []);
 
